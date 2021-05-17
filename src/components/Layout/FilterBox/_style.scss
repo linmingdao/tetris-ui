@@ -1,0 +1,18 @@
+.filter-box {
+  padding: 14px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .filter-item {
+    margin: 0 5px;
+  }
+}
+
+.filter-box.right {
+  justify-content: flex-end;
+}
+
+.filter-box.left {
+  justify-content: flex-start;
+}
