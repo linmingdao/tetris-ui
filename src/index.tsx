@@ -1,6 +1,7 @@
 // 基础组件
 export { default as Error } from './components/Basic/Error';
 export { default as Loading } from './components/Basic/Loading';
+export { default as AreaCascader } from './components/Basic/AreaCascader';
 export { default as SimpleListTable } from './components/Basic/SimpleListTable';
 
 // 布局组件
