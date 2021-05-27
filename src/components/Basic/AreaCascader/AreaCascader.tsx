@@ -1,6 +1,6 @@
 import React from 'react';
 import { Cascader } from 'antd';
-import options from './options.json';
+import options from './options';
 import { AreaCascaderProps, AreaCascaderValueType } from './types';
 
 const AreaCascader: React.FC<AreaCascaderProps> = ({ placeholder = '请选择', valueFormat = 'label', style, className, value, onChange }) => {
