@@ -23,15 +23,15 @@ const LabelWrapper: React.FC<LabelWrapperProps> = ({
   labelPlacement = 'right',
   children,
 }) => {
-  const classes = classNames('tetris-bricks_labelwrapper', layout);
+  const classes = classNames('tetris-ui_labelwrapper', layout);
   return (
     <div className={classes}>
-      <div style={{ width: labelWidth }} className={`tetris-bricks_labelwrapper_label tetris-bricks_labelwrapper_label--${labelPlacement}`}>
+      <div style={{ width: labelWidth }} className={`tetris-ui_labelwrapper_label tetris-ui_labelwrapper_label--${labelPlacement}`}>
         <span style={{ color: '#ff4d4f', paddingRight: 3 }}>{required ? '*' : ''}</span>
         {label}
         <span style={{ paddingRight: 3, paddingLeft: 2 }}>{noColon ? '' : ':'}</span>
       </div>
-      <div className="tetris-bricks_labelwrapper_content">{children}</div>
+      <div className="tetris-ui_labelwrapper_content">{children}</div>
     </div>
   );
 };

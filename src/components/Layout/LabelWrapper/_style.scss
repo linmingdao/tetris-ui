@@ -1,4 +1,4 @@
-.tetris-bricks_labelwrapper {
+.tetris-ui_labelwrapper {
   display: inline-flex;
   height: 33px;
   align-items: center;
@@ -27,10 +27,10 @@
   }
 }
 
-.tetris-bricks_labelwrapper.vertical {
+.tetris-ui_labelwrapper.vertical {
   display: flex;
 }
 
-.tetris-bricks_labelwrapper.horizontal {
+.tetris-ui_labelwrapper.horizontal {
   display: inline-flex;
 }
