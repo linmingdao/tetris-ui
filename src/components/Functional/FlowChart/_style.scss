@@ -115,11 +115,11 @@
   }
 
   .node.start {
-    width: 50px;
+    width: 80px;
     height: 50px;
-    border-radius: 50%;
-    border-color: #f45858;
-    background-color: #f29191;
+    border-radius: 30px;
+    border-color: #d28d16;
+    background-color: #fea917;
   }
 
   .node.end {
@@ -132,7 +132,7 @@
 
   .node.process {
     min-width: 80px;
-    min-height: 40px;
+    min-height: 50px;
     border-radius: 5px;
     border-color: #35b38b;
     background-color: #46d8aa;
