@@ -1,55 +1,38 @@
-import React, { useState, CSSProperties } from 'react';
+import React from 'react';
 import { Table } from 'antd';
-
-export interface ExpandableConfig {
-  rowExpandable: (record: any) => boolean;
-  expandedRowRender?: (record: any) => JSX.Element;
-}
-export interface SimpleListTableProps {
-  style?: CSSProperties;
-  className?: string;
-  rowkey: string;
-  columns: any[];
-  dataSource: any[];
-  total: number;
-  loading?: boolean;
-  currentPage?: number;
-  onPageChange?: (cPage: number) => void;
-  expandable?: ExpandableConfig;
-}
+import { SimpleListTableProps } from './types';
 
 const SimpleListTable: React.FC<SimpleListTableProps> = ({
   style = {},
   className = '',
   rowkey,
+  total,
   columns,
   dataSource,
   loading,
-  total,
+  pageSize = 10,
   currentPage = 1,
   onPageChange,
+  onPageSizeChange,
   expandable = { rowExpandable: () => false },
 }) => {
-  const [pageSizeOptions] = useState(['10', '20', '50', '100', '150']);
-  const [pageSize, setPageSize] = useState(Number(pageSizeOptions[0]));
-
   function onShowSizeChange(current: number, size: number) {
-    setPageSize(size);
+    onPageSizeChange && onPageSizeChange(size, current);
   }
 
   return (
     <Table
+      size="small"
       rowKey={rowkey}
       columns={columns}
       loading={loading}
-      dataSource={dataSource}
-      size="small"
       style={{ ...style }}
       className={className}
+      dataSource={dataSource}
       pagination={{
         total,
         pageSize,
-        pageSizeOptions,
+        // pageSizeOptions,
         current: currentPage,
         onShowSizeChange,
         onChange: onPageChange,
