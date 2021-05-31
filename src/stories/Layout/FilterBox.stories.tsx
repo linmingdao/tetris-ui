@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, Button, Switch, Tag } from 'antd';
 import { ScheduleOutlined } from '@ant-design/icons';
 import { Story, Meta } from '@storybook/react';
-import FilterBox, { FilterBoxProps } from '../../components/Layout/FilterBox/FilterBox';
+import FilterBox, { FilterBoxProps } from '../../components/Layout/FilterBox';
 
 export default {
   title: '布局组件/FilterBox',

@@ -1,6 +1,7 @@
-.title-bar {
+.tetris-ui_titlebar {
   height: 50px;
   display: flex;
+  overflow: hidden;
   justify-content: flex-start;
   align-items: center;
   border-bottom: 1px solid #e8e8e8;
@@ -8,6 +9,10 @@
   .title-txt {
     font-size: 16px;
     color: #404040;
+    min-width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .title-append {

@@ -1,28 +1,22 @@
-import classNames from 'classnames';
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Button } from 'antd';
-import { LeftOutlined } from '@ant-design/icons';
+import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
-
-export interface TitleBarProps {
-  url?: string;
-  hasBack?: boolean;
-  className?: string;
-  renderTool?: () => ReactNode;
-}
+import { LeftOutlined } from '@ant-design/icons';
+import { TitleBarProps } from './types';
 
 const TitleBar: React.FC<TitleBarProps> = ({ url, hasBack = false, className, children, renderTool = () => <></> }) => {
   const history = useHistory();
 
   const goBack = () => {
     if (url) {
-      history && history.push && history.push(url);
+      history?.push(url);
     } else {
-      history && history.goBack && history.goBack();
+      history?.goBack();
     }
   };
 
-  const classes = classNames('title-bar', className);
+  const classes = classNames('tetris-ui_titlebar', className);
 
   return (
     <div className={classes}>

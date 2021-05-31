@@ -2,7 +2,7 @@ import 'antd/dist/antd.css';
 import '../../styles/index.scss';
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import Loading, { LoadingProps } from '../../components/Basic/Loading/Loading';
+import Loading, { LoadingProps } from '../../components/Basic/Loading';
 
 export default {
   title: '基础组件/Loading',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import Error, { ErrorProps } from '../../components/Basic/Error/Error';
+import Error, { ErrorProps } from '../../components/Basic/Error';
 
 export default {
   title: '基础组件/Error',
@@ -13,7 +13,7 @@ export default {
           height: '300px',
           width: '100%',
           padding: 10,
-          boxShadow: ' 0 6px 12px rgba(0, 0, 0, 0.15)',
+          boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)',
         }}
       >
         {Story()}

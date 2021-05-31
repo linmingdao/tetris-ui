@@ -3,7 +3,7 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { ScheduleOutlined } from '@ant-design/icons';
 import { Story, Meta } from '@storybook/react';
 import FilterBox from '../../components/Layout/FilterBox/FilterBox';
-import TitleLayout, { TitleLayoutProps } from '../../components/Layout/TitleLayout/TitleLayout';
+import TitleLayout, { TitleLayoutProps } from '../../components/Layout/TitleLayout';
 
 export default {
   title: '布局组件/TitleLayout',

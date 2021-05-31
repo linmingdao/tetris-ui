@@ -3,7 +3,7 @@ import { Input, Button } from 'antd';
 import { ScheduleOutlined } from '@ant-design/icons';
 import { Story, Meta } from '@storybook/react';
 import FilterBox from '../../components/Layout/FilterBox/FilterBox';
-import TitleBar, { TitleBarProps } from '../../components/Layout/TitleBar/TitleBar';
+import TitleBar, { TitleBarProps } from '../../components/Layout/TitleBar';
 
 export default {
   title: '布局组件/TitleBar',

@@ -1,15 +1,10 @@
 import React from 'react';
 import { Spin } from 'antd';
-import classNames from 'classnames';
-
-export interface LoadingProps {
-  tip?: string;
-}
+import { LoadingProps } from './types';
 
 const Loading: React.FC<LoadingProps> = ({ tip = '数据玩命加载中...' }) => {
-  const classes = classNames('loading-box');
   return (
-    <div className={classes}>
+    <div className="tetris-ui_loading">
       <Spin tip={tip} />
     </div>
   );
