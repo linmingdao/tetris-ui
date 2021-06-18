@@ -1,4 +1,5 @@
-import shortid from 'shortid';
+import { nanoid } from 'nanoid';
+import classnames from 'classnames';
 import React, { useRef, useState, useEffect, useCallback, useImperativeHandle } from 'react';
 import ReactFlow, { addEdge, Controls, Background, BackgroundVariant, removeElements, ReactFlowProvider, Edge } from 'react-flow-renderer';
 import Toolbar from './Toolbar/Toolbar';
@@ -10,6 +11,8 @@ import { AvailableBuiltInTypeEnum, FlowChartProps, ElementType, EdgeType } from 
 const FlowChart: React.FC<FlowChartProps> = React.forwardRef(
   (
     {
+      style,
+      className,
       editable = false,
       dataSource = [],
       strokeWidth = 5,
@@ -72,7 +75,7 @@ const FlowChart: React.FC<FlowChartProps> = React.forwardRef(
           type,
           position,
           data: { label: nodesMap[type].label },
-          id: shortid.generate(),
+          id: nanoid(),
         });
         newNode && setElements(es => es.concat(newNode));
       }
@@ -107,7 +110,7 @@ const FlowChart: React.FC<FlowChartProps> = React.forwardRef(
     }, [dataSource]);
 
     return (
-      <div className="flow-editor-dnd">
+      <div className={classnames('flow-editor-dnd', className)} style={style}>
         <Sidebar nodes={nodes} editable={editable} />
         <div className="flow-wrapper" ref={reactFlowWrapper}>
           <ReactFlowProvider>

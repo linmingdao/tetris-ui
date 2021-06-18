@@ -1,3 +1,5 @@
+import React from 'react';
+
 export enum AvailableBuiltInTypeEnum {
   END = 'end',
   START = 'start',
@@ -62,6 +64,8 @@ export type EdgeReturnType = EdgeType | false | Promise<EdgeType | false>;
 
 export interface FlowChartProps {
   ref?: any;
+  style?: React.CSSProperties;
+  className?: string;
   editable?: boolean;
   dataSource?: any[];
   strokeWidth?: number;

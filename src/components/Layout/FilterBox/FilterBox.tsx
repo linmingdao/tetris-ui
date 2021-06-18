@@ -5,7 +5,7 @@ import { FilterBoxProps } from './types';
 
 const FilterBox: React.FC<FilterBoxProps> = ({ align = 'right', children, disableSpace = false }) => {
   const classes = classNames('tetris-ui_filterbox', `tetris-ui_filterbox--${align}`);
-  return <div className={classes}>{disableSpace ? children : <Space>{children}</Space>}</div>;
+  return <div className={classes}>{disableSpace ? children : <Space wrap>{children}</Space>}</div>;
 };
 
 FilterBox.displayName = 'FilterBox';
