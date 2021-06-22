@@ -105,6 +105,7 @@ export const Deserialization: FC<DeserializationProps> = ({
   onCancel,
   onReset,
   customToolbar,
+  onValuesChange,
   defaultToolbar = ['ok', 'reset', 'cancel'],
 }) => {
   const [form] = Form.useForm();
@@ -138,7 +139,7 @@ export const Deserialization: FC<DeserializationProps> = ({
   }
 
   return (
-    <Form form={form} initialValues={flatInitialValues} layout="vertical">
+    <Form form={form} initialValues={flatInitialValues} layout="vertical" onValuesChange={onValuesChange}>
       {stageItems.map((stageItem: StageItem) => loop(stageItem, templates, mode, 0, indent, rules))}
       <Form.Item style={{ borderTop: '1px solid #eee' }}>
         <Space style={{ width: '100%', justifyContent: 'flex-end', padding: '10px 0' }}>

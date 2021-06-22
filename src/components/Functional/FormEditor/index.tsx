@@ -1,4 +1,15 @@
-import FormEditor from './FormEditor';
-export { Deserialization } from './Deserialization';
 export * from './types';
-export default FormEditor;
+import { FC } from 'react';
+import FormEditor from './FormEditor';
+import { Deserialization } from './Deserialization';
+import { DeserializationProps, FormEditorProps } from './types';
+
+export type IFormEditor = FC<FormEditorProps> & {
+  Deserialization: FC<DeserializationProps>;
+};
+
+const TransFormEditor = FormEditor as IFormEditor;
+
+TransFormEditor.Deserialization = Deserialization;
+
+export default TransFormEditor;

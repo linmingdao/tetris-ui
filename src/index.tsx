@@ -11,9 +11,29 @@ export { default as TitleLayout } from './components/Layout/TitleLayout';
 export { default as LabelWrapper } from './components/Layout/LabelWrapper';
 
 // 业务组件
-export * as BasicFormItems from './components/Business/BasicFormItems';
-export * as SeriesFormItems from './components/Business/SeriesFormItems';
 
 // 功能组件
 export { default as FlowChart } from './components/Functional/FlowChart';
 export { default as FormEditor } from './components/Functional/FormEditor';
+
+// hooks
+export { default as useHistory } from './hooks/useHistory';
+
+// 表单编辑器_基础表单模板公共属性配置组件
+export { default as CommonAttributes } from './components/Basic/BasicFormItems';
+
+// 表单编辑器_基础表单模板组件
+export { Notes } from './components/Basic/BasicFormItems/Components/Notes';
+export { Selector } from './components/Basic/BasicFormItems/Components/Selector';
+export { NumInput } from './components/Basic/BasicFormItems/Components/NumInput';
+export { TextArea } from './components/Basic/BasicFormItems/Components/TextArea';
+export { TextInput } from './components/Basic/BasicFormItems/Components/TextInput';
+export { RadioGroup } from './components/Basic/BasicFormItems/Components/RadioGroup';
+export { CheckboxGroup } from './components/Basic/BasicFormItems/Components/CheckboxGroup';
+export { DateTimeSelect } from './components/Basic/BasicFormItems/Components/DateTimeSelect';
+export { SortableContainer } from './components/Basic/BasicFormItems/Components/SortableContainer';
+
+// 表单编辑器_表单校验器
+export { Email } from './components/Basic/BasicFormItems/validator/Email';
+export { Required } from './components/Basic/BasicFormItems/validator/Required';
+export { MobilePhone } from './components/Basic/BasicFormItems/validator/MobilePhone';

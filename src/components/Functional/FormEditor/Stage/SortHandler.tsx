@@ -30,7 +30,7 @@ const AttrDrawer: FC<{
           placement="right"
           onClose={onClose}
           maskClosable={false}
-          width={attrPanelWidth ? attrPanelWidth : 300}
+          width={attrPanelWidth ? attrPanelWidth : 400}
         >
           <Attributes index={payload.data.index} config={payload.data.config} onClose={onClose} onUpdate={onUpdate} />
         </Drawer>

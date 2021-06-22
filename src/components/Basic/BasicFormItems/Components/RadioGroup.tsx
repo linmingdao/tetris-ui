@@ -1,13 +1,12 @@
 import React from 'react';
-import { Form, Input, Select, Radio } from 'antd';
 import { nanoid } from 'nanoid';
-import { allRules } from '../validator';
+import Iconfont from '../Iconfont';
 import { parseOptions } from '../helper';
+import { Form, Input, Radio } from 'antd';
 import { RadioChangeEvent } from 'antd/lib/radio/interface';
-import { attrLabelCol, attrWrapperCol, attrLabelAlign, attTextAreaRows } from '../config';
+import CommonAttributes, { extractCommonAttributes } from '../CommonAttributes';
 
 const { TextArea } = Input;
-const { Option } = Select;
 
 interface PropTypes {
   name: string;
@@ -44,40 +43,22 @@ const Preview: React.FC<PropTypes> = props => {
   return <div>{target ? target.label : value} </div>;
 };
 
-const Attr: React.FC<PropTypes> = ({ name, label, value, options, rules, optionsList, onAttrPropsChange }) => {
-  const handleValuesChange = (changedValues: any, allValues: any) => {
-    onAttrPropsChange && onAttrPropsChange(changedValues, allValues);
-  };
+const Attr: React.FC<PropTypes> = props => {
+  const { value, options, optionsList } = props;
 
   return (
-    <Form
-      name="Attr"
-      labelCol={attrLabelCol}
-      wrapperCol={attrWrapperCol}
-      labelAlign={attrLabelAlign}
-      initialValues={{ name, label, value, options, rules }}
-      onValuesChange={handleValuesChange}
+    <CommonAttributes
+      {...extractCommonAttributes({
+        ...props,
+        initialValues: { value, options },
+      })}
+      noPlaceholder
     >
-      <Form.Item label="name" name="name" rules={[{ required: true, message: '请输入' }]}>
-        <Input placeholder="请输入" allowClear />
-      </Form.Item>
-      <Form.Item label="label" name="label">
-        <Input placeholder="请输入" allowClear />
-      </Form.Item>
       <Form.Item label="value" name="value">
         <Radio.Group options={optionsList} />
       </Form.Item>
-      <Form.Item label="rules" name="rules">
-        <Select placeholder="请选择" mode="multiple" allowClear>
-          {allRules.map(rule => (
-            <Option key={rule} value={rule}>
-              {rule}
-            </Option>
-          ))}
-        </Select>
-      </Form.Item>
       <Form.Item label="options" name="options">
-        <TextArea rows={attTextAreaRows} placeholder="请输入选项信息,例如: 中国,China;日本,Japan;美国,America" allowClear />
+        <TextArea rows={6} placeholder="请输入选项信息,例如: 中国,China;日本,Japan;美国,America" allowClear />
       </Form.Item>
       <div
         style={{
@@ -101,11 +82,11 @@ const Attr: React.FC<PropTypes> = ({ name, label, value, options, rules, options
       >
         * 如果 label,value 都是相同值，那么可以简单只提供一个值：value1;value2;key,value3
       </div>
-    </Form>
+    </CommonAttributes>
   );
 };
 
-const RadioGroup: React.FC<PropTypes> = props => {
+const Builder: React.FC<PropTypes> = props => {
   const { mode, options } = props;
   const optionsList = parseOptions(options);
   switch (mode) {
@@ -120,12 +101,20 @@ const RadioGroup: React.FC<PropTypes> = props => {
   }
 };
 
-RadioGroup.defaultProps = {
-  name: nanoid(),
-  value: '',
-  label: '标题',
-  options: '选项1,option1;选项2,option2;选项3,option3',
-  mode: 'stage',
-};
+export default Builder;
 
-export default RadioGroup;
+export const RadioGroup = {
+  group: '基础组件',
+  label: '单选按钮',
+  name: 'RadioGroup',
+  instance: Builder,
+  icon: <Iconfont type="icon-radiogroup" />,
+  loader: () => import('./RadioGroup'),
+  props: {
+    name: nanoid(),
+    value: undefined,
+    label: '标题',
+    options: '选项1,option1;选项2,option2;选项3,option3',
+    mode: 'stage',
+  },
+};

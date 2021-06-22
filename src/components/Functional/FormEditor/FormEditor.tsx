@@ -1,4 +1,3 @@
-import './index.scss';
 import { nanoid } from 'nanoid';
 import Stage from './Stage';
 import Toolbar from './Toolbar';
@@ -14,17 +13,23 @@ import React, { useState, useContext } from 'react';
 import { DndProvider } from 'react-dnd';
 import { groupTemplates } from './helper';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import Preview from './Preview/Preview';
 import { FormEditorProps, FormEditorContext, IEditorProps, StageItem } from './types';
 
 const Editor: React.FC<IEditorProps> = ({ className, style, customToolbar }) => {
   const { stageItemList, defaultToolbar, handleClear, onExport } = useContext(EditorContext);
   const [collapse, setCollapse] = useState<boolean>(false);
+  const [previewStageItems, setPreviewStageItems] = useState<StageItem[] | undefined>();
   const { present, set, undo, redo, clear, canUndo, canRedo } = useUndo(stageItemList && stageItemList.length ? [...stageItemList] : []);
 
   const renderDefaultToolbar = () => {
     function handleExport() {
       // FIXME: name唯一性校验
       onExport && onExport(present);
+    }
+
+    function handlePreview() {
+      setPreviewStageItems(present);
     }
 
     return (
@@ -66,6 +71,14 @@ const Editor: React.FC<IEditorProps> = ({ className, style, customToolbar }) => 
           <Button type="text" disabled={!present.length} icon={<Iconfont type="icon-export" />} onClick={() => handleExport()}>
             保 存
           </Button>
+        )}
+        {defaultToolbar?.includes('preview') && (
+          <>
+            <Button type="text" disabled={!present.length} icon={<Iconfont type="icon-preview" />} onClick={() => handlePreview()}>
+              预 览
+            </Button>
+            <Preview stageItems={previewStageItems} onClose={() => setPreviewStageItems(undefined)} />
+          </>
         )}
       </>
     );
@@ -120,7 +133,8 @@ const FormEditor: React.FC<FormEditorProps> = ({
   templates = {},
   groupIcons = {},
   onExport,
-  defaultToolbar = ['undo', 'redo', 'reset', 'clear', 'export'],
+  rules,
+  defaultToolbar = ['undo', 'redo', 'reset', 'clear', 'export', 'preview'],
   ...restProps
 }) => {
   const [stageItemList, setStageItemList] = useState<StageItem[]>(stageItems ? stageItems : []);
@@ -137,6 +151,7 @@ const FormEditor: React.FC<FormEditorProps> = ({
     groupedTemplates: groupTemplates(templates),
     stageItemList,
     defaultToolbar,
+    rules,
     onExport,
     handleClear() {
       setStageItemList([]);

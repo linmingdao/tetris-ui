@@ -1,8 +1,11 @@
 import React from 'react';
 import { FormInstance } from 'antd';
 
-export type FormEditorDefaultToolbar = 'undo' | 'redo' | 'reset' | 'clear' | 'export';
+export type FormEditorDefaultToolbar = 'undo' | 'redo' | 'reset' | 'clear' | 'export' | 'preview';
 
+export interface IRules {
+  [key: string]: any;
+}
 export interface ITemplateItem {
   name: string;
   label: string;
@@ -21,6 +24,13 @@ export interface GroupedTemplates {
 
 export interface GroupIcons {
   [groupName: string]: React.ReactElement;
+}
+
+export interface StageItem {
+  id: string;
+  name: string;
+  props: any;
+  children?: StageItem[];
 }
 
 export interface FormEditorCustomToolbarParams {
@@ -45,6 +55,7 @@ export interface FormEditorProps {
   attrPanelWidth?: number;
   attLabelWrapperCol?: [number, number];
   className?: string;
+  rules?: IRules;
   style?: React.CSSProperties;
   defaultToolbar?: FormEditorDefaultToolbar[];
   customToolbar?: (params: FormEditorCustomToolbarParams) => React.ReactElement;
@@ -63,15 +74,9 @@ export interface FormEditorContext {
   attrPanelWidth?: number;
   attLabelWrapperCol?: [number, number];
   defaultToolbar?: FormEditorDefaultToolbar[];
+  rules?: IRules;
   onExport?: (stageItemList: StageItem[]) => void;
   handleClear?: () => void;
-}
-
-export interface StageItem {
-  id: string;
-  name: string;
-  props: any;
-  children?: StageItem[];
 }
 
 export interface IEditorProps {
@@ -125,10 +130,6 @@ export interface ISortHandlerProps {
   onUpdate: (index: string, allValues: any, changedValues: any) => void;
 }
 
-export interface IRules {
-  [key: string]: any;
-}
-
 export type DeserializeDefaultToolbar = 'ok' | 'reset' | 'cancel';
 
 export interface DeserializeCustomToolbarParams {
@@ -149,6 +150,7 @@ export interface DeserializationProps {
   onReset?: () => void;
   onCancel?: () => void;
   onOK?: (values: any) => void;
+  onValuesChange?: (changedValues: any, allValues: any) => void;
   defaultToolbar?: DeserializeDefaultToolbar[];
   customToolbar?: (params: DeserializeCustomToolbarParams) => React.ReactElement;
 }

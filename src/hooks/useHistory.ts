@@ -11,7 +11,7 @@ const initialState = {
 };
 
 // Our reducer function to handle state changes based on action
-const reducer = (state, action) => {
+const reducer = (state: any, action: any) => {
   const { past, present, future } = state;
 
   switch (action.type) {
@@ -43,7 +43,7 @@ const reducer = (state, action) => {
   }
 };
 
-const useHistory = initialPresent => {
+const useHistory = (initialPresent: any) => {
   const [state, dispatch] = useReducer(reducer, { ...initialState, present: initialPresent });
 
   const canUndo = state.past.length !== 0;

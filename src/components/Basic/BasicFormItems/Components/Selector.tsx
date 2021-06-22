@@ -1,9 +1,9 @@
 import React from 'react';
-import { Form, Input, Select } from 'antd';
 import { nanoid } from 'nanoid';
-import { allRules } from '../validator';
+import Iconfont from '../Iconfont';
 import { parseOptions } from '../helper';
-import { attrLabelCol, attrWrapperCol, attrLabelAlign, attTextAreaRows } from '../config';
+import { Form, Input, Select } from 'antd';
+import CommonAttributes, { extractCommonAttributes } from '../CommonAttributes';
 import { SelectValue } from 'antd/lib/select';
 
 const { TextArea } = Input;
@@ -83,26 +83,15 @@ const Preview: React.FC<PropTypes> = props => {
   }
 };
 
-const Attr: React.FC<PropTypes> = ({ name, label, value, options, selectMode, rules, optionsList, onAttrPropsChange }) => {
-  const handleValuesChange = (changedValues: any, allValues: any) => {
-    onAttrPropsChange && onAttrPropsChange(changedValues, allValues);
-  };
-
+const Attr: React.FC<PropTypes> = props => {
+  const { value, options, selectMode, optionsList } = props;
   return (
-    <Form
-      name="Attr"
-      labelCol={attrLabelCol}
-      wrapperCol={attrWrapperCol}
-      labelAlign={attrLabelAlign}
-      initialValues={{ name, label, value, options, rules }}
-      onValuesChange={handleValuesChange}
+    <CommonAttributes
+      {...extractCommonAttributes({
+        ...props,
+        initialValues: { value, options },
+      })}
     >
-      <Form.Item label="name" name="name" rules={[{ required: true, message: '请输入' }]}>
-        <Input placeholder="请输入" allowClear />
-      </Form.Item>
-      <Form.Item label="label" name="label">
-        <Input placeholder="请输入" allowClear />
-      </Form.Item>
       <Form.Item label="value" name="value">
         <Select placeholder="请选择" allowClear={true} style={{ width: '100%' }} mode={selectMode ? selectMode : undefined}>
           {optionsList &&
@@ -119,17 +108,8 @@ const Attr: React.FC<PropTypes> = ({ name, label, value, options, selectMode, ru
           <Option value="multiple">多选</Option>
         </Select>
       </Form.Item>
-      <Form.Item label="rules" name="rules">
-        <Select placeholder="请选择" mode="multiple" allowClear>
-          {allRules.map(rule => (
-            <Option key={rule} value={rule}>
-              {rule}
-            </Option>
-          ))}
-        </Select>
-      </Form.Item>
       <Form.Item label="options" name="options">
-        <TextArea rows={attTextAreaRows} placeholder="请输入选项信息,例如: 中国,China;日本,Japan;美国,America" allowClear />
+        <TextArea rows={6} placeholder="请输入选项信息,例如: 中国,China;日本,Japan;美国,America" allowClear />
       </Form.Item>
       <div
         style={{
@@ -153,11 +133,11 @@ const Attr: React.FC<PropTypes> = ({ name, label, value, options, selectMode, ru
       >
         * 如果 label,value 都是相同值，那么可以简单只提供一个值：value1;value2;key,value3
       </div>
-    </Form>
+    </CommonAttributes>
   );
 };
 
-const Selector: React.FC<PropTypes> = props => {
+const Builder: React.FC<PropTypes> = props => {
   const { mode, options } = props;
   const _options = parseOptions(options);
   switch (mode) {
@@ -172,7 +152,7 @@ const Selector: React.FC<PropTypes> = props => {
   }
 };
 
-Selector.defaultProps = {
+Builder.defaultProps = {
   name: nanoid(),
   value: undefined,
   selectMode: undefined,
@@ -183,4 +163,23 @@ Selector.defaultProps = {
   mode: 'stage',
 };
 
-export default Selector;
+export default Builder;
+
+export const Selector = {
+  group: '基础组件',
+  label: '下拉框',
+  name: 'Selector',
+  instance: Builder,
+  icon: <Iconfont type="icon-selector" />,
+  loader: () => import('./Selector'),
+  props: {
+    name: nanoid(),
+    value: undefined,
+    selectMode: undefined,
+    rules: [],
+    label: '标题',
+    placeholder: '请选择',
+    options: '选项1,option1;选项2,option2;选项3,option3',
+    mode: 'stage',
+  },
+};

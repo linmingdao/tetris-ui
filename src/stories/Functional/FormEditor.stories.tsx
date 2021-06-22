@@ -1,11 +1,12 @@
 import React from 'react';
 import { Button, Space } from 'antd';
 import { Story, Meta } from '@storybook/react';
-import { SaveOutlined } from '@ant-design/icons';
-import FormEditor, { Deserialization } from '../../components/Functional/FormEditor';
-import { templates, groupIcons, rules } from '../../components/Business/SeriesFormItems/index';
-import { FormEditorProps, StageItem } from '../../components/Functional/FormEditor/types';
+import { SaveOutlined, BuildOutlined } from '@ant-design/icons';
 import { stageItems } from './formEditorMockData';
+import { FormEditor } from '../../index';
+import { Required, Email, MobilePhone } from '../../index';
+import { SortableContainer, TextInput, TextArea, CheckboxGroup, Notes, NumInput, RadioGroup, DateTimeSelect, Selector } from '../../index';
+import { FormEditorProps, StageItem, DeserializationProps } from '../../components/Functional/FormEditor/types';
 
 export default {
   title: '功能组件/FormEditor',
@@ -17,8 +18,6 @@ export default {
         style={{
           minHeight: '490px',
           width: '100%',
-          padding: 10,
-          boxShadow: ' 0 6px 12px rgba(0, 0, 0, 0.15)',
         }}
       >
         {Story()}
@@ -27,50 +26,39 @@ export default {
   ],
 } as Meta;
 
-const Template: Story<FormEditorProps> = args => (
-  <>
-    <p>表单编辑器:</p>
-    <FormEditor {...args} />
-    <p style={{ marginTop: 20 }}>反序列化能力:</p>
-    <div style={{ padding: '10px 200px', border: '1px solid #eee', boxShadow: 'rgb(0 0 0 / 15%) 0px 6px 12px' }}>
-      <Deserialization
-        rules={rules}
-        mode="stage"
-        templates={templates}
-        stageItems={stageItems}
-        customToolbar={({ getValues, resetForm, form }) => {
-          async function showValues() {
-            const res = await getValues();
-            console.log('customToolbar', res);
-          }
+const groupIcons = { 基础组件: <BuildOutlined /> };
 
-          return (
-            <>
-              <Button onClick={() => showValues()}>自定义获取值</Button>
-              <Button onClick={() => resetForm()}>自定义重置</Button>
-              <Button onClick={() => console.log('其余业务按钮')}>其余业务按钮</Button>
-            </>
-          );
-        }}
-        onOK={values => console.log('custom ok', values)}
-        onCancel={() => console.log('custom cancel')}
-        onReset={() => console.log('custom reset')}
-      />
-    </div>
-  </>
-);
+const templates = { SortableContainer, TextInput, TextArea, CheckboxGroup, Notes, NumInput, RadioGroup, DateTimeSelect, Selector };
 
-export const Demo = Template.bind({});
-Demo.args = {
-  stageItems,
+const formEditorTemplate: Story<FormEditorProps> = args => <FormEditor {...args} />;
+
+const deserializationTemplate: Story<DeserializationProps> = args => <FormEditor.Deserialization {...args} />;
+
+export const Basic = formEditorTemplate.bind({});
+Basic.storyName = '基本用法';
+Basic.args = {
   templates,
   groupIcons,
-  tmplPanelWidth: 360,
-  attrPanelWidth: 400,
-  // defaultToolbar: ['undo', 'redo', 'reset', 'clear', 'export'],
+  rules: { Required, Email, MobilePhone },
   onExport: function (stageItemList: StageItem[]) {
     console.log(JSON.stringify(stageItemList));
   },
+  style: { height: '675px' },
+};
+
+export const DataBackfill = formEditorTemplate.bind({});
+DataBackfill.storyName = '数据回填';
+DataBackfill.args = {
+  templates,
+  stageItems,
+  style: { height: '675px' },
+};
+
+export const CustomToolbar = formEditorTemplate.bind({});
+CustomToolbar.storyName = '自定义工具栏';
+CustomToolbar.args = {
+  templates,
+  defaultToolbar: ['undo', 'redo', 'reset', 'clear'],
   customToolbar: ({ stageItemList }) => {
     function handleSave() {
       console.log(stageItemList);
@@ -78,15 +66,52 @@ Demo.args = {
 
     return (
       <Space>
-        <Button type="text" icon={<SaveOutlined />} onClick={() => handleSave()}>
+        <Button type="text" icon={<SaveOutlined />} onClick={() => handleSave()} style={{ color: 'green' }}>
           自定义保存按钮
         </Button>
       </Space>
     );
   },
-  style: {
-    width: '100%',
-    height: '750px',
-    boxShadow: 'rgb(206 206 206) 0px 0px 25px 0px',
+  style: { height: '675px' },
+};
+
+export const Deserialization = deserializationTemplate.bind({});
+Deserialization.storyName = '反序列化能力';
+Deserialization.args = {
+  mode: 'stage',
+  templates,
+  stageItems,
+  defaultToolbar: ['ok', 'cancel', 'reset'],
+  rules: { Required, Email, MobilePhone },
+  onValuesChange(changedValues: any, allValues: any) {
+    console.log(changedValues);
+    console.log(allValues);
   },
+};
+
+export const DeserializationCustomToolbar = deserializationTemplate.bind({});
+DeserializationCustomToolbar.storyName = '自定义反序列化工具栏';
+DeserializationCustomToolbar.args = {
+  mode: 'stage',
+  templates,
+  stageItems,
+  rules: { Required, Email, MobilePhone },
+  defaultToolbar: [],
+  customToolbar: ({ getValues, resetForm, form }) => {
+    async function showValues() {
+      const res = await getValues();
+      console.log('customToolbar', res);
+    }
+
+    return (
+      <>
+        <Button onClick={() => showValues()}>自定义获取值</Button>
+        <Button onClick={() => resetForm()}>自定义重置</Button>
+        <Button onClick={() => console.log('其余业务按钮')}>其余业务按钮</Button>
+      </>
+    );
+  },
+  onOK: values => console.log('custom ok', values),
+  onCancel: () => console.log('custom cancel'),
+  onReset: () => console.log('custom reset'),
 };

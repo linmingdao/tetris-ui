@@ -12,8 +12,10 @@ const SimpleListTable: React.FC<SimpleListTableProps> = ({
   loading,
   pageSize = 10,
   currentPage = 1,
+  onChange,
   onPageChange,
   onPageSizeChange,
+  paginationOption = { size: 'small', showQuickJumper: false, showTotal: undefined },
   expandable = { rowExpandable: () => false },
 }) => {
   function onShowSizeChange(current: number, size: number) {
@@ -29,7 +31,9 @@ const SimpleListTable: React.FC<SimpleListTableProps> = ({
       style={{ ...style }}
       className={className}
       dataSource={dataSource}
+      onChange={onChange}
       pagination={{
+        ...paginationOption,
         total,
         pageSize,
         // pageSizeOptions,

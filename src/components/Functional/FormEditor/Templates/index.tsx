@@ -17,7 +17,7 @@ const Templates: React.FC<{ visible: boolean }> = ({ visible = true }) => {
   };
 
   return (
-    <div className={classnames('templates', { hide: visible })} style={{ width: tmplPanelWidth ? tmplPanelWidth : 300 }}>
+    <div className={classnames('templates', { hide: visible })} style={{ width: tmplPanelWidth ? tmplPanelWidth : 360 }}>
       <Menu mode="inline" theme="light" inlineCollapsed={true} onSelect={handleSelect} defaultSelectedKeys={[Object.keys(groupedTemplates)[0]]}>
         {Object.keys(groupedTemplates).map((groupName: string) => {
           return (
@@ -30,9 +30,7 @@ const Templates: React.FC<{ visible: boolean }> = ({ visible = true }) => {
       <div className="category">
         <div className="title">{currentGroupName}</div>
         <TemplateList>
-          {currentGroupComponents.map((item: any, index: number) => (
-            <TemplateItem key={index} config={item} />
-          ))}
+          {currentGroupComponents && currentGroupComponents.map((item: any, index: number) => <TemplateItem key={index} config={item} />)}
         </TemplateList>
       </div>
     </div>
