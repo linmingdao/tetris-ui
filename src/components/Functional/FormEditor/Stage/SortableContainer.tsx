@@ -7,7 +7,7 @@ import { DropTargetMonitor } from 'react-dnd';
 import { getComponentErrorTips } from '../helper';
 import { ISortableContainerProps } from '../types';
 
-const SortableContainer: React.FC<ISortableContainerProps> = ({ itemData, index, onRemove, onDown, onUp, onUpdate, onDropChild }) => {
+const SortableContainer: React.FC<ISortableContainerProps> = ({ itemData, index, stageItemList, onRemove, onDown, onUp, onUpdate, onDropChild }) => {
   /**
    * 递归多层容器嵌套
    * @param item
@@ -43,6 +43,7 @@ const SortableContainer: React.FC<ISortableContainerProps> = ({ itemData, index,
                   <SortableContainer
                     index={idx}
                     itemData={itemData}
+                    stageItemList={stageItemList}
                     onUp={onUp}
                     onDown={onDown}
                     onRemove={onRemove}
@@ -59,7 +60,16 @@ const SortableContainer: React.FC<ISortableContainerProps> = ({ itemData, index,
           );
         } else {
           return (
-            <SortableItem key={itemData.id} index={idx} itemData={itemData} onRemove={onRemove} onUp={onUp} onDown={onDown} onUpdate={onUpdate} />
+            <SortableItem
+              key={itemData.id}
+              index={idx}
+              itemData={itemData}
+              stageItemList={stageItemList}
+              onRemove={onRemove}
+              onUp={onUp}
+              onDown={onDown}
+              onUpdate={onUpdate}
+            />
           );
         }
       });
@@ -87,6 +97,7 @@ const SortableContainer: React.FC<ISortableContainerProps> = ({ itemData, index,
         item: { type: 'SortableContainer', id: itemData.id, index, data: itemData },
         collect: (monitor: any) => ({ isDragging: monitor.isDragging(), opacity: monitor.isDragging() ? 0 : 1 }),
       }}
+      stageItemList={stageItemList}
       onUp={onUp}
       onDown={onDown}
       onRemove={onRemove}

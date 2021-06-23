@@ -30,7 +30,7 @@ const Stage: React.FC<{
   // 高亮提示 开始拖拽 以及 可以完成拖拽放置
   const isActive = canDrop && isOver;
   let backgroundColor = stageBgColor ? stageBgColor : '#f3f2f2a3';
-  const $collaOutline: any = document.querySelector('.colla-outline');
+  const $collaOutline: HTMLElement | null = document.querySelector('.colla-outline');
   if ($collaOutline) {
     $collaOutline.style['backgroundColor'] = backgroundColor;
   }
@@ -60,7 +60,7 @@ const Stage: React.FC<{
     }
   }
 
-  function onUpdate(index: string, allValues: any) {
+  function onUpdate(index: string, allValues: unknown) {
     if (index.includes('-')) {
       // 容器内嵌节点
       const { parent, child } = findStageItemByIndex(index, stageItemList);
@@ -133,6 +133,7 @@ const Stage: React.FC<{
                 key={item.id}
                 index={index + ''}
                 itemData={item}
+                stageItemList={stageItemList}
                 onUp={onUp}
                 onDown={onDown}
                 onRemove={onRemove}
@@ -140,7 +141,16 @@ const Stage: React.FC<{
                 onDropChild={onDropChild}
               />
             ) : (
-              <SortableItem key={item.id} index={index + ''} itemData={item} onUp={onUp} onDown={onDown} onRemove={onRemove} onUpdate={onUpdate} />
+              <SortableItem
+                key={item.id}
+                index={index + ''}
+                itemData={item}
+                stageItemList={stageItemList}
+                onUp={onUp}
+                onDown={onDown}
+                onRemove={onRemove}
+                onUpdate={onUpdate}
+              />
             )
           )
         ) : (

@@ -1,11 +1,12 @@
 import classnames from 'classnames';
 import { useDrop } from 'react-dnd';
 import Attributes from '../Attributes';
-import { Drawer, Popconfirm } from 'antd';
+import { Drawer, Popconfirm, Space } from 'antd';
 import { ISortHandlerProps } from '../types';
 import { EditorContext } from '../EditorContext';
 import React, { FC, useContext, useRef, useState } from 'react';
 import { ArrowUpOutlined, MinusCircleOutlined, SettingOutlined, ToolOutlined } from '@ant-design/icons';
+import { isChildInFirstPlaceOfParent, isChildInTheEndPlaceOfParent } from '../helper';
 
 const AttrDrawer: FC<{
   payload: { type: string; data: any };
@@ -40,7 +41,18 @@ const AttrDrawer: FC<{
   }
 };
 
-const SortHandler: FC<ISortHandlerProps> = ({ index, className, children, itemData, dropConfig, onUp, onDown, onRemove, onUpdate }) => {
+const SortHandler: FC<ISortHandlerProps> = ({
+  index,
+  className,
+  children,
+  itemData,
+  dropConfig,
+  stageItemList,
+  onUp,
+  onDown,
+  onRemove,
+  onUpdate,
+}) => {
   const [attrDrawerPayload, setAttrDrawerPayload] = useState<any | undefined>();
 
   const ref = useRef<HTMLDivElement>(null);
@@ -70,12 +82,14 @@ const SortHandler: FC<ISortHandlerProps> = ({ index, className, children, itemDa
         </div>
         <div className="component-wrapper">{children}</div>
         <div className="operator">
-          <Popconfirm title="确定要删除么?" onConfirm={handleRemove} okText="确定" cancelText="取消">
-            <MinusCircleOutlined style={{ color: '#f55757' }} onClick={e => e.stopPropagation()} />
-          </Popconfirm>
-          <ArrowUpOutlined style={{ color: '#555' }} onClick={handleUp} />
-          <ArrowUpOutlined style={{ color: '#555' }} rotate={180} onClick={handleDown} />
-          <SettingOutlined style={{ color: '#555' }} onClick={() => setAttrDrawerPayload({ type: 'attr', data: { index, config: itemData } })} />
+          <Space size={3}>
+            <Popconfirm title="确定要删除么?" onConfirm={handleRemove} okText="确定" cancelText="取消">
+              <MinusCircleOutlined style={{ color: '#f55757' }} onClick={e => e.stopPropagation()} />
+            </Popconfirm>
+            {!isChildInFirstPlaceOfParent(index) && <ArrowUpOutlined style={{ color: '#555' }} onClick={handleUp} />}
+            {!isChildInTheEndPlaceOfParent(index, stageItemList) && <ArrowUpOutlined style={{ color: '#555' }} rotate={180} onClick={handleDown} />}
+            <SettingOutlined style={{ color: '#555' }} onClick={() => setAttrDrawerPayload({ type: 'attr', data: { index, config: itemData } })} />
+          </Space>
         </div>
       </div>
       <AttrDrawer payload={attrDrawerPayload} onClose={() => setAttrDrawerPayload(undefined)} onUpdate={onUpdate} />

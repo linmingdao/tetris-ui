@@ -5,7 +5,7 @@ import DynamicEngine from '../DynamicEngine';
 import { ISortableItemProps } from '../types';
 import { getComponentErrorTips } from '../helper';
 
-const SortableItem: React.FC<ISortableItemProps> = ({ index, itemData, onRemove, onUp, onDown, onUpdate }) => {
+const SortableItem: React.FC<ISortableItemProps> = ({ index, itemData, stageItemList, onRemove, onUp, onDown, onUpdate }) => {
   const { name, rules = [] } = itemData.props;
 
   return (
@@ -18,6 +18,7 @@ const SortableItem: React.FC<ISortableItemProps> = ({ index, itemData, onRemove,
         item: { type: 'SortableItem', id: itemData.id, data: itemData, index },
         collect: (monitor: any) => ({ isDragging: monitor.isDragging(), opacity: monitor.isDragging() ? 0 : 1 }),
       }}
+      stageItemList={stageItemList}
       onUp={onUp}
       onDown={onDown}
       onRemove={onRemove}

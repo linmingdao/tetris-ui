@@ -102,6 +102,7 @@ export interface CollapseProps {
 export interface ISortableContainerProps {
   index: string;
   itemData: any;
+  stageItemList: StageItem[];
   onDropChild: () => void;
   onUp: (index: string, item: StageItem) => void;
   onDown: (index: string, item: StageItem) => void;
@@ -112,6 +113,7 @@ export interface ISortableContainerProps {
 export interface ISortableItemProps {
   index: string;
   itemData: any;
+  stageItemList: StageItem[];
   onUp: (index: string, item: StageItem) => void;
   onDown: (index: string, item: StageItem) => void;
   onRemove: (index: string, item: StageItem) => void;
@@ -124,6 +126,7 @@ export interface ISortHandlerProps {
   dropConfig: any;
   dragConfig: any;
   className?: string;
+  stageItemList: StageItem[];
   onUp: (index: string, item: StageItem) => void;
   onDown: (index: string, item: StageItem) => void;
   onRemove: (index: string, item: StageItem) => void;

@@ -29,6 +29,11 @@ export function checkStageItemPropsNameUniqueness(stageItemList: StageItem[]): s
   return '';
 }
 
+/**
+ * 对传入的模板信息进行分组
+ * @param templates
+ * @returns
+ */
 export function groupTemplates(templates: Templates): GroupedTemplates {
   const groupedTemplates: GroupedTemplates = {};
 
@@ -44,6 +49,12 @@ export function groupTemplates(templates: Templates): GroupedTemplates {
   return groupedTemplates;
 }
 
+/**
+ * 通过下标找到当前节点(child)和父节点(parent)
+ * @param index
+ * @param stageItemList
+ * @returns
+ */
 export function findStageItemByIndex(index: string, stageItemList: StageItem[]): { child?: StageItem; parent?: StageItem; childIndex?: number } {
   const res: { child?: StageItem; parent?: StageItem; childIndex?: number } = {};
   if (index.includes('-')) {
@@ -51,10 +62,10 @@ export function findStageItemByIndex(index: string, stageItemList: StageItem[]):
     let target: StageItem = stageItemList[Number(idxArr[0])];
     for (let i = 0; i < idxArr.length; i++) {
       const currentIdx = Number(idxArr[i]);
-      // 找到父节点
-      idxArr.length - i === 2 && (res.parent = target);
       // 继续递归遍历
       i !== 0 && target.children && (target = target.children[currentIdx]);
+      // 找到父节点
+      idxArr.length - i === 2 && (res.parent = target);
       // 找到子节点
       idxArr.length - i === 1 && ((res.child = target), (res.childIndex = currentIdx));
     }
@@ -64,4 +75,31 @@ export function findStageItemByIndex(index: string, stageItemList: StageItem[]):
   }
 
   return res;
+}
+
+export function getChildIndexOfParent(index: string) {
+  if (index.includes('-')) {
+    const idxArr = index.split('-');
+    return idxArr[idxArr.length - 1];
+  } else {
+    return index;
+  }
+}
+
+export function isChildInFirstPlaceOfParent(index: string): boolean {
+  return getChildIndexOfParent(index) === '0';
+}
+
+export function isChildInTheEndPlaceOfParent(index: string, stageItemList: StageItem[]): boolean {
+  if (index.includes('-')) {
+    const childIdx = getChildIndexOfParent(index);
+    const { parent } = findStageItemByIndex(index, stageItemList);
+    if (parent && parent.children && parent.children.length) {
+      return Number(childIdx) === parent.children.length - 1;
+    } else {
+      return false;
+    }
+  } else {
+    return Number(index) === stageItemList.length - 1;
+  }
 }
