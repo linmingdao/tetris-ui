@@ -1,3 +1,10 @@
+export interface ICustomConfig {
+  label: string;
+  name: string;
+  widget: React.ReactNode;
+}
+
+export type CustomAttrType = ICustomConfig[] | undefined;
 export interface CommonAttributesPropTypes {
   name: string;
   label?: string;
@@ -8,6 +15,6 @@ export interface CommonAttributesPropTypes {
   valuesChangeInterceptor?: (changedValues: any, allValues: any) => { changedValues: any; allValues: any };
   noRules?: boolean;
   noPlaceholder?: boolean;
+  CustomAttr?: CustomAttrType;
+  [key: string]: any;
 }
-
-export type ExtractCommonAttributes = (params: CommonAttributesPropTypes) => any;

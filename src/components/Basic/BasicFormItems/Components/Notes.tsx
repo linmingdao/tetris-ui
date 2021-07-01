@@ -2,7 +2,7 @@ import React from 'react';
 import { nanoid } from 'nanoid';
 import Iconfont from '../Iconfont';
 import { Form, Input } from 'antd';
-import CommonAttributes, { extractCommonAttributes } from '../CommonAttributes';
+import CommonAttributes from '../CommonAttributes';
 
 const { TextArea } = Input;
 
@@ -29,10 +29,10 @@ const Attr: React.FC<PropTypes> = props => {
 
   return (
     <CommonAttributes
-      {...extractCommonAttributes({
+      {...{
         ...props,
         initialValues: { notesHtml },
-      })}
+      }}
       noPlaceholder
       noRules
     >
@@ -47,6 +47,8 @@ const Builder: React.FC<PropTypes> = props => {
   const { mode } = props;
   switch (mode) {
     case 'stage':
+      return <Stage {...props} />;
+    case 'preview':
       return <Stage {...props} />;
     case 'attr':
       return <Attr {...props} />;

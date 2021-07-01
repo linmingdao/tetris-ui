@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import Iconfont from '../Iconfont';
 import { parseOptions } from '../helper';
 import { Form, Input, Select } from 'antd';
-import CommonAttributes, { extractCommonAttributes } from '../CommonAttributes';
+import CommonAttributes from '../CommonAttributes';
 import { SelectValue } from 'antd/lib/select';
 
 const { TextArea } = Input;
@@ -61,36 +61,48 @@ const Stage: React.FC<PropTypes> = props => {
 };
 
 const Preview: React.FC<PropTypes> = props => {
-  const { selectMode, optionsList, value } = props;
-  if (!selectMode) {
-    // 单选模式
-    const targetItem = optionsList && optionsList.length && (optionsList as any[]).find(item => item.value === value);
-    return <div>{targetItem ? targetItem.label : value}</div>;
-  } else {
-    // 多选模式
-    return (
-      <div>
-        {value &&
-          value.length &&
-          value
-            .map((val: any) => {
-              const targetItem = (optionsList as any[]).find(item => item.value === val);
-              return targetItem ? targetItem.label : val;
-            })
-            .join(', ')}
-      </div>
-    );
-  }
+  const { selectMode, optionsList, value, placeholder } = props;
+  // if (!selectMode) {
+  //   // 单选模式
+  //   const targetItem = optionsList && optionsList.length && (optionsList as any[]).find(item => item.value === value);
+  //   return <div>{targetItem ? targetItem.label : value}</div>;
+  // } else {
+  //   // 多选模式
+  //   return (
+  //     <div>
+  //       {value &&
+  //         value.length &&
+  //         value
+  //           .map((val: any) => {
+  //             const targetItem = (optionsList as any[]).find(item => item.value === val);
+  //             return targetItem ? targetItem.label : val;
+  //           })
+  //           .join(', ')}
+  //     </div>
+  //   );
+  // }
+  return (
+    <Select value={value} disabled placeholder={placeholder} bordered={false} mode={selectMode === 'multiple' ? 'multiple' : undefined}>
+      {optionsList &&
+        optionsList.map(m => {
+          return (
+            <Option key={m.value} value={m.value}>
+              {m.label}
+            </Option>
+          );
+        })}
+    </Select>
+  );
 };
 
 const Attr: React.FC<PropTypes> = props => {
   const { value, options, selectMode, optionsList } = props;
   return (
     <CommonAttributes
-      {...extractCommonAttributes({
+      {...{
         ...props,
         initialValues: { value, options },
-      })}
+      }}
     >
       <Form.Item label="value" name="value">
         <Select placeholder="请选择" allowClear={true} style={{ width: '100%' }} mode={selectMode ? selectMode : undefined}>

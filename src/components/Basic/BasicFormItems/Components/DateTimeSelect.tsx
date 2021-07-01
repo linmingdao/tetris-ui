@@ -3,7 +3,7 @@ import moment from 'moment';
 import { nanoid } from 'nanoid';
 import Iconfont from '../Iconfont';
 import { Form, DatePicker } from 'antd';
-import CommonAttributes, { extractCommonAttributes } from '../CommonAttributes';
+import CommonAttributes from '../CommonAttributes';
 
 interface PropTypes {
   name: string;
@@ -28,13 +28,13 @@ const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, onChange }) 
     onChange && onChange(newVal);
   };
 
-  const val = typeof value === 'string' ? moment(value, DATE_TIME_FORMAT) : value;
+  const val = typeof value === 'string' && value ? moment(value, DATE_TIME_FORMAT) : undefined;
 
   return (
     <DatePicker
-      disabled={disabled}
-      showTime={true}
       value={val}
+      showTime={true}
+      disabled={disabled}
       format={DATE_TIME_FORMAT}
       style={{ width: '100%' }}
       placeholder={placeholder}
@@ -44,8 +44,10 @@ const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, onChange }) 
 };
 
 const Preview: React.FC<PropTypes> = props => {
-  const { value } = props;
-  return <div>{moment(value.valueOf()).format(DATE_TIME_FORMAT)}</div>;
+  const { value, placeholder } = props;
+  // return <div>{moment(value.valueOf()).format(DATE_TIME_FORMAT)}</div>;
+  const val = typeof value === 'string' && value ? moment(value, DATE_TIME_FORMAT) : undefined;
+  return <DatePicker bordered={false} disabled value={val} showTime={true} format={DATE_TIME_FORMAT} placeholder={placeholder} />;
 };
 
 const Attr: React.FC<PropTypes> = props => {
@@ -54,10 +56,10 @@ const Attr: React.FC<PropTypes> = props => {
 
   return (
     <CommonAttributes
-      {...extractCommonAttributes({
+      {...{
         ...props,
         initialValues: { value: val },
-      })}
+      }}
     >
       <Form.Item label="value" name="value">
         <DatePicker showTime={true} format={DATE_TIME_FORMAT} placeholder="请选择" style={{ width: '100%' }} />

@@ -5,7 +5,7 @@ import { useDrop } from 'react-dnd';
 import { StageItem } from '../types';
 import React, { useContext } from 'react';
 import SortableItem from './SortableItem';
-import { findStageItemByIndex } from '../helper';
+import { findStageItemByIndex } from '../utils/helper';
 import { EditorContext } from '../EditorContext';
 import SortableContainer from './SortableContainer';
 

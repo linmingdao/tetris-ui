@@ -2,7 +2,7 @@ import React from 'react';
 import { nanoid } from 'nanoid';
 import Iconfont from '../Iconfont';
 import { Form, Input, InputNumber } from 'antd';
-import CommonAttributes, { extractCommonAttributes } from '../CommonAttributes';
+import CommonAttributes from '../CommonAttributes';
 
 interface PropTypes {
   name: string;
@@ -28,21 +28,23 @@ const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, rows, onChan
     onChange && onChange(newVal);
   };
 
-  return <Input.TextArea rows={rows} value={value} disabled={disabled} placeholder={placeholder} onChange={handleChange} />;
+  return <Input.TextArea rows={rows} value={value} disabled={disabled} placeholder={placeholder} onChange={handleChange} allowClear />;
 };
 
 const Preview: React.FC<PropTypes> = props => {
-  return <div>{props.value}</div>;
+  const { value, placeholder } = props;
+  // return <div>{props.value}</div>;
+  return <Input.TextArea value={value} bordered={false} readOnly placeholder={placeholder} autoSize />;
 };
 
 const Attr: React.FC<PropTypes> = props => {
   const { value, rows } = props;
   return (
     <CommonAttributes
-      {...extractCommonAttributes({
+      {...{
         ...props,
         initialValues: { value, rows },
-      })}
+      }}
     >
       <Form.Item label="rows" name="rows">
         <InputNumber min={1} precision={0} placeholder="请输入" style={{ width: '100%' }} />

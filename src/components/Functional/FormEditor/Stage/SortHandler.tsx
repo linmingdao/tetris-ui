@@ -6,7 +6,7 @@ import { ISortHandlerProps } from '../types';
 import { EditorContext } from '../EditorContext';
 import React, { FC, useContext, useRef, useState } from 'react';
 import { ArrowUpOutlined, MinusCircleOutlined, SettingOutlined, ToolOutlined } from '@ant-design/icons';
-import { isChildInFirstPlaceOfParent, isChildInTheEndPlaceOfParent } from '../helper';
+import { isChildInFirstPlaceOfParent, isChildInTheEndPlaceOfParent } from '../utils/helper';
 
 const AttrDrawer: FC<{
   payload: { type: string; data: any };

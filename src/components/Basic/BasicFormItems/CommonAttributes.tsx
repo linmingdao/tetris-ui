@@ -1,19 +1,23 @@
 import React from 'react';
 import { Form, Input, Select } from 'antd';
-import { CommonAttributesPropTypes, ExtractCommonAttributes } from './types';
+import { CommonAttributesPropTypes, ICustomConfig } from './types';
 
-const CommonAttributes: React.FC<CommonAttributesPropTypes> = ({
-  name,
-  label,
-  rules,
-  placeholder,
-  initialValues,
-  onAttrPropsChange,
-  valuesChangeInterceptor,
-  children,
-  noRules = false,
-  noPlaceholder = false,
-}) => {
+const CommonAttributes: React.FC<CommonAttributesPropTypes> = props => {
+  const {
+    name,
+    label,
+    rules,
+    placeholder,
+    initialValues,
+    onAttrPropsChange,
+    valuesChangeInterceptor,
+    children,
+    noRules = false,
+    noPlaceholder = false,
+    CustomAttr,
+    ...restProps
+  } = props;
+
   const handleValuesChange = (changedValues: any, allValues: any) => {
     if (valuesChangeInterceptor) {
       const { changedValues: cv, allValues: av } = valuesChangeInterceptor(changedValues, allValues);
@@ -23,14 +27,18 @@ const CommonAttributes: React.FC<CommonAttributesPropTypes> = ({
     }
   };
 
+  function getInitialValues() {
+    const initValues = { name, label, rules, placeholder, ...initialValues };
+    if (CustomAttr && CustomAttr.length) {
+      CustomAttr.forEach((item: ICustomConfig) => {
+        initValues[item.name] = (restProps as any)[item.name];
+      });
+    }
+    return initValues;
+  }
+
   return (
-    <Form
-      labelAlign="left"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      onValuesChange={handleValuesChange}
-      initialValues={{ name, label, rules, placeholder, ...initialValues }}
-    >
+    <Form labelAlign="left" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onValuesChange={handleValuesChange} initialValues={getInitialValues()}>
       <Form.Item label="name" name="name">
         <Input placeholder="请输入" disabled allowClear />
       </Form.Item>
@@ -54,6 +62,15 @@ const CommonAttributes: React.FC<CommonAttributesPropTypes> = ({
         </Form.Item>
       )}
       {children}
+      {CustomAttr &&
+        CustomAttr.length &&
+        CustomAttr.map((formItemCofing: any) => {
+          return (
+            <Form.Item key={formItemCofing.name} label={formItemCofing.label} name={formItemCofing.name}>
+              {formItemCofing.widget}
+            </Form.Item>
+          );
+        })}
     </Form>
   );
 };
@@ -61,23 +78,3 @@ const CommonAttributes: React.FC<CommonAttributesPropTypes> = ({
 CommonAttributes.displayName = 'CommonAttributes';
 
 export default CommonAttributes;
-
-export const extractCommonAttributes: ExtractCommonAttributes = function ({
-  name,
-  label,
-  rules,
-  placeholder,
-  initialValues,
-  onAttrPropsChange,
-  valuesChangeInterceptor,
-}) {
-  return {
-    name,
-    label,
-    rules,
-    placeholder,
-    initialValues,
-    onAttrPropsChange,
-    valuesChangeInterceptor,
-  };
-};

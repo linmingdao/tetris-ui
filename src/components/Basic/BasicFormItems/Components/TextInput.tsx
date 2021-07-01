@@ -2,7 +2,7 @@ import React from 'react';
 import { nanoid } from 'nanoid';
 import Iconfont from '../Iconfont';
 import { Form, Input } from 'antd';
-import CommonAttributes, { extractCommonAttributes } from '../CommonAttributes';
+import CommonAttributes from '../CommonAttributes';
 
 interface PropTypes {
   name: string;
@@ -26,11 +26,13 @@ const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, onChange }) 
     onChange && onChange(newVal);
   };
 
-  return <Input value={value} disabled={disabled} placeholder={placeholder} onChange={handleChange} />;
+  return <Input value={value} disabled={disabled} placeholder={placeholder} onChange={handleChange} allowClear />;
 };
 
 const Preview: React.FC<PropTypes> = props => {
-  return <div>{props.value}</div>;
+  const { value, placeholder } = props;
+  // return <div>{props.value}</div>;
+  return <Input value={value} bordered={false} readOnly placeholder={placeholder} />;
 };
 
 const Attr: React.FC<PropTypes> = props => {
@@ -47,11 +49,11 @@ const Attr: React.FC<PropTypes> = props => {
 
   return (
     <CommonAttributes
-      {...extractCommonAttributes({
+      {...{
         ...props,
         valuesChangeInterceptor,
         initialValues: { value },
-      })}
+      }}
     >
       <Form.Item label="value" name="value">
         <Input placeholder="请输入" allowClear />

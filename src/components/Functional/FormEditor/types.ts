@@ -11,8 +11,10 @@ export interface ITemplateItem {
   label: string;
   group: string;
   loader: () => any;
+  CustomAttr?: React.ReactNode | undefined;
   icon?: React.ReactElement;
   instance: React.JSXElementConstructor<any>;
+  props?: any;
 }
 export interface Templates {
   [key: string]: ITemplateItem;
@@ -141,6 +143,14 @@ export interface DeserializeCustomToolbarParams {
   getValues: () => Promise<any>;
 }
 
+export interface ValuesChangeParams {
+  index: string;
+  indexMap: any;
+  flatValues: any;
+  changedValues: any;
+  allValues: any;
+}
+
 export interface DeserializationProps {
   templates: Templates;
   mode: 'stage' | 'preview';
@@ -153,7 +163,7 @@ export interface DeserializationProps {
   onReset?: () => void;
   onCancel?: () => void;
   onOK?: (values: any) => void;
-  onValuesChange?: (changedValues: any, allValues: any) => void;
+  onValuesChange?: (params: ValuesChangeParams) => void;
   defaultToolbar?: DeserializeDefaultToolbar[];
   customToolbar?: (params: DeserializeCustomToolbarParams) => React.ReactElement;
 }

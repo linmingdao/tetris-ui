@@ -1,7 +1,7 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
 import Iconfont from '../Iconfont';
-import CommonAttributes, { extractCommonAttributes } from '../CommonAttributes';
+import CommonAttributes from '../CommonAttributes';
 
 interface PropTypes {
   name: string;
@@ -24,7 +24,7 @@ const Preview: React.FC<PropTypes> = props => {
 };
 
 const Attr: React.FC<PropTypes> = props => {
-  return <CommonAttributes {...extractCommonAttributes({ ...props })} noPlaceholder noRules />;
+  return <CommonAttributes {...{ ...props }} noPlaceholder noRules />;
 };
 
 const Builder: React.FC<PropTypes> = props => {

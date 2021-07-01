@@ -9,9 +9,9 @@ import clonedeep from 'lodash.clonedeep';
 import { Popconfirm, Button } from 'antd';
 import { EditorContext } from './EditorContext';
 import useUndo from '../../../hooks/useHistory';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
-import { groupTemplates } from './helper';
+import { groupTemplates } from './utils/helper';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Preview from './Preview/Preview';
 import { FormEditorProps, FormEditorContext, IEditorProps, StageItem } from './types';
@@ -137,7 +137,11 @@ const FormEditor: React.FC<FormEditorProps> = ({
   defaultToolbar = ['undo', 'redo', 'reset', 'clear', 'export', 'preview'],
   ...restProps
 }) => {
-  const [stageItemList, setStageItemList] = useState<StageItem[]>(stageItems ? stageItems : []);
+  const [stageItemList, setStageItemList] = useState<StageItem[]>([]);
+
+  useEffect(() => {
+    setStageItemList(stageItems ? stageItems : []);
+  }, [stageItems]);
 
   const passedContext: FormEditorContext = {
     stageBgColor,

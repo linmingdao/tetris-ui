@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import SortHandler from './SortHandler';
 import SortableItem from './SortableItem';
 import { DropTargetMonitor } from 'react-dnd';
-import { getComponentErrorTips } from '../helper';
+import { getComponentErrorTips } from '../utils/helper';
 import { ISortableContainerProps } from '../types';
 
 const SortableContainer: React.FC<ISortableContainerProps> = ({ itemData, index, stageItemList, onRemove, onDown, onUp, onUpdate, onDropChild }) => {

@@ -62,12 +62,12 @@ const DynamicEngine = memo((props: DynamicEngineProps) => {
     return ErrorTip(`不存在名称为【${name}】的模板, 请检查传入的模板配置是否有误哟~~`);
   }
 
-  const loader = templates[name].loader;
+  const { loader, CustomAttr } = templates[name];
   if (!loader) {
     return ErrorTip(`名称为【${name}】的模板loader配置错误哟~~`);
   }
 
-  const reactiveComponentProps = { ...props.componentProps };
+  const reactiveComponentProps = { ...props.componentProps, CustomAttr };
   const Dynamic = useMemo(() => {
     return (DynamicFunc(loader, name) as unknown) as FC<DynamicEngineProps>;
   }, []);

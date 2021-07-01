@@ -2,23 +2,7 @@ import React, { FC } from 'react';
 import Iconfont from './Iconfont';
 import { Form, Button, Space, Popconfirm } from 'antd';
 import { DeserializationProps, IRules, StageItem, Templates } from './types';
-
-function flat(stageItem: StageItem, flatInitialValuesRef: any, cascadeValuesRef: any) {
-  if (stageItem.children && stageItem.children.length) {
-    cascadeValuesRef[stageItem.props.name] = {};
-    stageItem.children.forEach((childStageItem: StageItem) => flat(childStageItem, flatInitialValuesRef, cascadeValuesRef[stageItem.props.name]));
-  } else {
-    cascadeValuesRef[stageItem.props.name] = stageItem.props.value;
-    flatInitialValuesRef[stageItem.props.name] = stageItem.props.value;
-  }
-}
-
-function flatStageItemList(stageItemList: StageItem[]): any {
-  const cascadeValues: any = {};
-  const flatInitialValues: any = {};
-  stageItemList.forEach(stageItem => flat(stageItem, flatInitialValues, cascadeValues));
-  return { cascadeValues, flatInitialValues };
-}
+import { flatStageItemList, mergeFlatValues } from './utils/deserialization';
 
 function loop(
   stageItem: StageItem,
@@ -29,29 +13,20 @@ function loop(
   rules: IRules
 ): React.ReactElement {
   if (stageItem.children && stageItem.children.length) {
+    // 渲染容器
     return (
       <Form.Item
         style={{ marginLeft: cascadeLevel * indent }}
         key={stageItem.props.name}
         label={
-          <span
-            style={{
-              color: '#fff',
-              cursor: 'text',
-              padding: '3px 6px',
-              borderTopRightRadius: 7,
-              borderBottomRightRadius: 7,
-              backgroundColor: '#1890ff',
-              borderLeft: '5px solid #9ed7ff',
-            }}
-          >
-            <Iconfont type="icon-formgroup" /> <span style={{ padding: '0 6px' }}>{stageItem.props.label}</span>
+          <span className="form-item-group">
+            <Iconfont type="icon-formgroup" />
+            <span style={{ padding: '0 6px' }}>{stageItem.props.label}</span>
           </span>
         }
       >
-        {stageItem.children.map((childStageItem: StageItem) => {
-          return loop(childStageItem, templates, mode, cascadeLevel + 1, indent, rules);
-        })}
+        {/* 渲染容器下的子控件 */}
+        {stageItem.children.map((childStageItem: StageItem) => loop(childStageItem, templates, mode, cascadeLevel + 1, indent, rules))}
       </Form.Item>
     );
   } else {
@@ -59,37 +34,19 @@ function loop(
     const formItemRules = propsRules.map((ruleName: string) => rules[ruleName]);
     const AnonymousComponent = templates[stageItem.name].instance;
 
+    // 渲染子控件
     return (
       <Form.Item
-        style={{ marginLeft: cascadeLevel * indent }}
-        key={stageItem.props.name}
-        label={stageItem.props.label}
-        name={stageItem.props.name}
         rules={formItemRules}
+        key={stageItem.props.name}
+        name={stageItem.props.name}
+        label={stageItem.props.label}
+        style={{ marginLeft: cascadeLevel * indent }}
       >
-        <AnonymousComponent {...stageItem.props} mode={mode} />
+        <AnonymousComponent {...stageItem.props} mode={stageItem.props.mode || mode} />
       </Form.Item>
     );
   }
-}
-
-function merge(cascadeValues: any, name: string, value: any) {
-  const keys = Object.keys(cascadeValues);
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    if (key === name) {
-      cascadeValues[key] = value;
-      return;
-    }
-    if (typeof cascadeValues[key] === 'object') {
-      merge(cascadeValues[key], name, value);
-    }
-  }
-}
-
-function mergeFlatValues(cascadeValues: any, flatValues: any) {
-  Object.keys(flatValues).forEach((name: string) => merge(cascadeValues, name, flatValues[name]));
-  return cascadeValues;
 }
 
 export const Deserialization: FC<DeserializationProps> = ({
@@ -97,7 +54,7 @@ export const Deserialization: FC<DeserializationProps> = ({
   rules = {},
   templates,
   stageItems,
-  indent = 40,
+  indent = 30,
   okText = '提 交',
   resetText = '重 置',
   cancelText = '取 消',
@@ -109,7 +66,7 @@ export const Deserialization: FC<DeserializationProps> = ({
   defaultToolbar = ['ok', 'reset', 'cancel'],
 }) => {
   const [form] = Form.useForm();
-  const { cascadeValues, flatInitialValues } = flatStageItemList(stageItems);
+  const { indexMap, cascadeValues, flatInitialValues } = flatStageItemList(stageItems);
 
   function getValues() {
     return new Promise((resovle, reject) => {
@@ -134,12 +91,25 @@ export const Deserialization: FC<DeserializationProps> = ({
     onReset && onReset();
   }
 
-  function handleCancel() {
-    onCancel && onCancel();
+  function handleValuesChange(changedValues: any, flatValues: any) {
+    onValuesChange &&
+      onValuesChange({
+        indexMap,
+        index: indexMap[Object.keys(changedValues)[0]],
+        flatValues,
+        changedValues,
+        allValues: mergeFlatValues(cascadeValues, flatValues),
+      });
   }
 
   return (
-    <Form form={form} initialValues={flatInitialValues} layout="vertical" onValuesChange={onValuesChange}>
+    <Form
+      form={form}
+      layout="vertical"
+      initialValues={flatInitialValues}
+      onValuesChange={handleValuesChange}
+      className="tetris-bricks_deserialization"
+    >
       {stageItems.map((stageItem: StageItem) => loop(stageItem, templates, mode, 0, indent, rules))}
       <Form.Item style={{ borderTop: '1px solid #eee' }}>
         <Space style={{ width: '100%', justifyContent: 'flex-end', padding: '10px 0' }}>
@@ -156,7 +126,7 @@ export const Deserialization: FC<DeserializationProps> = ({
             </Popconfirm>
           )}
           {defaultToolbar.includes('cancel') && (
-            <Button shape="round" onClick={() => handleCancel()} icon={<Iconfont type="icon-cancel" />} type="default">
+            <Button shape="round" onClick={() => onCancel && onCancel()} icon={<Iconfont type="icon-cancel" />} type="default">
               {cancelText}
             </Button>
           )}

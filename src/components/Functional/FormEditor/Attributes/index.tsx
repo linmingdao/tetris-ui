@@ -9,7 +9,7 @@ const Attributes: React.FC<IAttributes> = ({ index, config, onClose, onUpdate })
   const [attrValues, setAttrValues] = useState<any>(undefined);
 
   function handleSaveAttrConfig() {
-    onUpdate(index, attrValues.allValues, attrValues.changedValues);
+    attrValues && onUpdate(index, attrValues.allValues, attrValues.changedValues);
     onClose();
   }
 

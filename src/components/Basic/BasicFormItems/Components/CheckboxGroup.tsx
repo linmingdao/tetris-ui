@@ -1,13 +1,14 @@
 import React from 'react';
 import Iconfont from '../Iconfont';
-import { Form, Input, Select, Checkbox } from 'antd';
+import { Form, Input, Checkbox } from 'antd';
 import { nanoid } from 'nanoid';
 import { parseOptions } from '../helper';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
-import CommonAttributes, { extractCommonAttributes } from '../CommonAttributes';
+import CommonAttributes from '../CommonAttributes';
+import { ITemplateItem } from '../../../Functional/FormEditor';
+import { CustomAttrType } from '../types';
 
 const { TextArea } = Input;
-const { Option } = Select;
 
 interface PropTypes {
   name: string;
@@ -18,8 +19,10 @@ interface PropTypes {
   disabled?: boolean;
   optionsList?: any[];
   mode?: string;
+  CustomAttr?: CustomAttrType;
   onChange?: (values: any) => void;
   onAttrPropsChange?: (changedValues: any, allValues: any) => void;
+  [key: string]: any;
 }
 
 const Stage: React.FC<PropTypes> = props => {
@@ -38,29 +41,31 @@ const Stage: React.FC<PropTypes> = props => {
 };
 
 const Preview: React.FC<PropTypes> = props => {
+  // const { optionsList, value } = props;
+  // return (
+  //   <div>
+  //     {value &&
+  //       value.length &&
+  //       value
+  //         .map(val => {
+  //           const target = (optionsList as any[]).find(item => item.value === val);
+  //           return target ? target.label : val;
+  //         })
+  //         .join(', ')}
+  //   </div>
+  // );
   const { optionsList, value } = props;
-  return (
-    <div>
-      {value &&
-        value.length &&
-        value
-          .map(val => {
-            const target = (optionsList as any[]).find(item => item.value === val);
-            return target ? target.label : val;
-          })
-          .join(', ')}
-    </div>
-  );
+  return <Checkbox.Group value={value} options={optionsList} />;
 };
 
 const Attr: React.FC<PropTypes> = props => {
   const { value, options, optionsList } = props;
   return (
     <CommonAttributes
-      {...extractCommonAttributes({
+      {...{
         ...props,
         initialValues: { value, options },
-      })}
+      }}
       noPlaceholder
     >
       <Form.Item label="value" name="value">
@@ -112,7 +117,7 @@ const Builder: React.FC<PropTypes> = props => {
 
 export default Builder;
 
-export const CheckboxGroup = {
+export const CheckboxGroup: ITemplateItem = {
   group: '基础组件',
   label: '复选框',
   name: 'CheckboxGroup',

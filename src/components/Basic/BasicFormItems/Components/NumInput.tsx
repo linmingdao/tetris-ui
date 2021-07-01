@@ -2,7 +2,7 @@ import React from 'react';
 import { nanoid } from 'nanoid';
 import Iconfont from '../Iconfont';
 import { Form, InputNumber } from 'antd';
-import CommonAttributes, { extractCommonAttributes } from '../CommonAttributes';
+import CommonAttributes from '../CommonAttributes';
 
 interface PropTypes {
   name: string;
@@ -29,17 +29,19 @@ const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, onChange }) 
 };
 
 const Preview: React.FC<PropTypes> = props => {
-  return <div>{props.value}</div>;
+  const { value, placeholder } = props;
+  // return <div>{props.value}</div>;
+  return <InputNumber value={value} readOnly bordered={false} placeholder={placeholder} />;
 };
 
 const Attr: React.FC<PropTypes> = props => {
   const { value } = props;
   return (
     <CommonAttributes
-      {...extractCommonAttributes({
+      {...{
         ...props,
         initialValues: { value },
-      })}
+      }}
     >
       <Form.Item label="value" name="value">
         <InputNumber style={{ width: '100%' }} placeholder="请输入数字" />

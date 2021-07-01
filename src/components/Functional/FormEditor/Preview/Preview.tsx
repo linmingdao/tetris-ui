@@ -1,28 +1,40 @@
-import React, { FC, useContext } from 'react';
-import { Drawer, message } from 'antd';
+import React, { FC, useContext, useState } from 'react';
+import { Drawer, Radio } from 'antd';
 import { StageItem } from '../types';
 import { EditorContext } from '../EditorContext';
 import { Deserialization } from '../Deserialization';
 
 const Preview: FC<{ stageItems: StageItem[] | undefined; onClose: () => void }> = ({ stageItems, onClose }) => {
   const { templates, rules } = useContext(EditorContext);
-
-  function handleOk(values: any) {
-    message.success(`待提交的表单数据：${JSON.stringify(values)}`);
-  }
+  const [mode, setMode] = useState<'stage' | 'preview'>('stage');
 
   if (stageItems) {
     return (
-      <Drawer title="预览" destroyOnClose placement="left" width="80%" closable maskClosable onClose={onClose} visible={true}>
-        <Deserialization
-          mode="stage"
-          rules={rules}
-          templates={templates}
-          stageItems={stageItems}
-          defaultToolbar={['ok', 'cancel', 'reset']}
-          onOK={handleOk}
-          onCancel={onClose}
-        />
+      <Drawer title="预览" destroyOnClose placement="left" width="700" closable maskClosable onClose={onClose} visible={true}>
+        <div>
+          表单显示的模式：
+          <Radio.Group
+            value={mode}
+            optionType="button"
+            buttonStyle="solid"
+            options={[
+              { label: '可编辑', value: 'stage' },
+              { label: '只读', value: 'preview' },
+            ]}
+            onChange={(e: any) => setMode(e.target.value)}
+          />
+        </div>
+        <div style={{ marginTop: 10 }}>表单内容：</div>
+        <div style={{ padding: '10px 100px' }}>
+          <Deserialization
+            mode={mode}
+            rules={rules}
+            templates={templates}
+            stageItems={stageItems}
+            onCancel={onClose}
+            defaultToolbar={mode === 'stage' ? ['cancel', 'reset'] : []}
+          />
+        </div>
       </Drawer>
     );
   } else {

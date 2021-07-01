@@ -3,7 +3,7 @@ import { Mode } from '../constants';
 import SortHandler from './SortHandler';
 import DynamicEngine from '../DynamicEngine';
 import { ISortableItemProps } from '../types';
-import { getComponentErrorTips } from '../helper';
+import { getComponentErrorTips } from '../utils/helper';
 
 const SortableItem: React.FC<ISortableItemProps> = ({ index, itemData, stageItemList, onRemove, onUp, onDown, onUpdate }) => {
   const { name, rules = [] } = itemData.props;

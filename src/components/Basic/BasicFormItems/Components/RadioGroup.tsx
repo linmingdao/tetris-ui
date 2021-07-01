@@ -4,7 +4,7 @@ import Iconfont from '../Iconfont';
 import { parseOptions } from '../helper';
 import { Form, Input, Radio } from 'antd';
 import { RadioChangeEvent } from 'antd/lib/radio/interface';
-import CommonAttributes, { extractCommonAttributes } from '../CommonAttributes';
+import CommonAttributes from '../CommonAttributes';
 
 const { TextArea } = Input;
 
@@ -38,9 +38,11 @@ const Stage: React.FC<PropTypes> = props => {
 };
 
 const Preview: React.FC<PropTypes> = props => {
+  // const { optionsList, value } = props;
+  // const target = (optionsList as any[]).find(item => item.value === value);
+  // return <div>{target ? target.label : value} </div>;
   const { optionsList, value } = props;
-  const target = (optionsList as any[]).find(item => item.value === value);
-  return <div>{target ? target.label : value} </div>;
+  return <Radio.Group value={value} options={optionsList} />;
 };
 
 const Attr: React.FC<PropTypes> = props => {
@@ -48,10 +50,10 @@ const Attr: React.FC<PropTypes> = props => {
 
   return (
     <CommonAttributes
-      {...extractCommonAttributes({
+      {...{
         ...props,
         initialValues: { value, options },
-      })}
+      }}
       noPlaceholder
     >
       <Form.Item label="value" name="value">

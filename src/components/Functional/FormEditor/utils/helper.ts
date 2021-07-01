@@ -1,4 +1,4 @@
-import { Templates, GroupedTemplates, StageItem } from './types';
+import { Templates, GroupedTemplates, StageItem } from '../types';
 
 export function getComponentErrorTips(name?: string) {
   if (name) {
@@ -77,6 +77,11 @@ export function findStageItemByIndex(index: string, stageItemList: StageItem[]):
   return res;
 }
 
+/**
+ * 获取子表单控件在父children数组中的真实下标
+ * @param index
+ * @returns
+ */
 export function getChildIndexOfParent(index: string) {
   if (index.includes('-')) {
     const idxArr = index.split('-');
@@ -86,10 +91,21 @@ export function getChildIndexOfParent(index: string) {
   }
 }
 
+/**
+ * 判断子表单控件是否在父children数组中处在第一位置
+ * @param index
+ * @returns
+ */
 export function isChildInFirstPlaceOfParent(index: string): boolean {
   return getChildIndexOfParent(index) === '0';
 }
 
+/**
+ * 判断子表单控件是否在父children数组中处在末尾位置
+ * @param index
+ * @param stageItemList
+ * @returns
+ */
 export function isChildInTheEndPlaceOfParent(index: string, stageItemList: StageItem[]): boolean {
   if (index.includes('-')) {
     const childIdx = getChildIndexOfParent(index);

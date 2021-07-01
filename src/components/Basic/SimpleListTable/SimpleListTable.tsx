@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import { SimpleListTableProps } from './types';
 
@@ -15,9 +15,15 @@ const SimpleListTable: React.FC<SimpleListTableProps> = ({
   onChange,
   onPageChange,
   onPageSizeChange,
-  paginationOption = { size: 'small', showQuickJumper: false, showTotal: undefined },
+  paginationOption,
   expandable = { rowExpandable: () => false },
 }) => {
+  const [localPageSize, setLocalPageSize] = useState<number>(pageSize);
+
+  useEffect(() => {
+    setLocalPageSize(pageSize);
+  }, [pageSize]);
+
   function onShowSizeChange(current: number, size: number) {
     onPageSizeChange && onPageSizeChange(size, current);
   }
@@ -33,13 +39,16 @@ const SimpleListTable: React.FC<SimpleListTableProps> = ({
       dataSource={dataSource}
       onChange={onChange}
       pagination={{
-        ...paginationOption,
+        size: 'small',
         total,
-        pageSize,
-        // pageSizeOptions,
+        pageSize: localPageSize,
         current: currentPage,
         onShowSizeChange,
         onChange: onPageChange,
+        showQuickJumper: false,
+        showSizeChanger: false,
+        showTotal: undefined,
+        ...paginationOption,
       }}
       expandable={expandable}
     />

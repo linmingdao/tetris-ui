@@ -51,6 +51,9 @@ DataBackfill.storyName = '数据回填';
 DataBackfill.args = {
   templates,
   stageItems,
+  onExport: function (stageItemList: StageItem[]) {
+    console.log(JSON.stringify(stageItemList));
+  },
   style: { height: '675px' },
 };
 
@@ -78,14 +81,13 @@ CustomToolbar.args = {
 export const Deserialization = deserializationTemplate.bind({});
 Deserialization.storyName = '反序列化能力';
 Deserialization.args = {
-  mode: 'stage',
+  mode: 'preview',
   templates,
   stageItems,
   defaultToolbar: ['ok', 'cancel', 'reset'],
   rules: { Required, Email, MobilePhone },
-  onValuesChange(changedValues: any, allValues: any) {
-    console.log(changedValues);
-    console.log(allValues);
+  onValuesChange(params) {
+    console.log(params);
   },
 };
 

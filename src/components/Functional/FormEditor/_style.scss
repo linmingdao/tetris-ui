@@ -1,16 +1,20 @@
-.tetris-bricks_formeditor_scrollbar::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+// 滚动条
+.tetris-bricks_formeditor_scrollbar {
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #0000001e;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f5f5f500;
+  }
 }
 
-.tetris-bricks_formeditor_scrollbar::-webkit-scrollbar-thumb {
-  background: #0000001e;
-}
-
-.tetris-bricks_formeditor_scrollbar::-webkit-scrollbar-track {
-  background: #f5f5f500;
-}
-
+// 表单编辑器
 .tetris-bricks_formeditor {
   overflow: hidden;
   background-color: #fff;
@@ -234,5 +238,18 @@
         }
       }
     }
+  }
+}
+
+// 反序列化
+.tetris-bricks_deserialization {
+  .form-item-group {
+    cursor: text;
+    padding: 3px;
+    color: #fff;
+    background-color: #1890ff;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-left: 5px solid #9ed7ff;
   }
 }
