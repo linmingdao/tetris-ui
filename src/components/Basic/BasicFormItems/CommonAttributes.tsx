@@ -1,6 +1,7 @@
 import React from 'react';
-import { Form, Input, Select } from 'antd';
+import { Button, Form, Input, Select, Space } from 'antd';
 import { CommonAttributesPropTypes, ICustomConfig } from './types';
+import { CheckOutlined, CloseOutlined, UndoOutlined } from '@ant-design/icons';
 
 const CommonAttributes: React.FC<CommonAttributesPropTypes> = props => {
   const {
@@ -9,8 +10,8 @@ const CommonAttributes: React.FC<CommonAttributesPropTypes> = props => {
     rules,
     placeholder,
     initialValues,
-    onAttrPropsChange,
-    valuesChangeInterceptor,
+    onSave,
+    onCancel,
     children,
     noRules = false,
     noPlaceholder = false,
@@ -18,14 +19,9 @@ const CommonAttributes: React.FC<CommonAttributesPropTypes> = props => {
     ...restProps
   } = props;
 
-  const handleValuesChange = (changedValues: any, allValues: any) => {
-    if (valuesChangeInterceptor) {
-      const { changedValues: cv, allValues: av } = valuesChangeInterceptor(changedValues, allValues);
-      onAttrPropsChange && onAttrPropsChange(cv, av);
-    } else {
-      onAttrPropsChange && onAttrPropsChange(changedValues, allValues);
-    }
-  };
+  function onFinish(allValues: any) {
+    onSave && onSave(allValues);
+  }
 
   function getInitialValues() {
     const initValues = { name, label, rules, placeholder, ...initialValues };
@@ -38,11 +34,11 @@ const CommonAttributes: React.FC<CommonAttributesPropTypes> = props => {
   }
 
   return (
-    <Form labelAlign="left" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onValuesChange={handleValuesChange} initialValues={getInitialValues()}>
-      <Form.Item label="name" name="name">
+    <Form layout="vertical" labelAlign="left" initialValues={getInitialValues()} onFinish={onFinish}>
+      <Form.Item label="name" name="name" rules={[{ required: true, message: '控件名称必填' }]}>
         <Input placeholder="请输入" disabled allowClear />
       </Form.Item>
-      <Form.Item label="label" name="label">
+      <Form.Item label="label" name="label" rules={[{ required: true, message: '控件label必填' }]}>
         <Input placeholder="请输入" allowClear />
       </Form.Item>
       {!noPlaceholder && (
@@ -71,6 +67,19 @@ const CommonAttributes: React.FC<CommonAttributesPropTypes> = props => {
             </Form.Item>
           );
         })}
+      <Form.Item>
+        <Space style={{ width: '100%', justifyContent: 'flex-end', borderTop: '1px solid #eee', paddingTop: 10, marginTop: 10 }}>
+          <Button icon={<CheckOutlined />} type="primary" shape="round" htmlType="submit">
+            保 存
+          </Button>
+          <Button icon={<UndoOutlined />} danger shape="round" htmlType="reset">
+            重 置
+          </Button>
+          <Button icon={<CloseOutlined />} shape="round" onClick={() => onCancel && onCancel()}>
+            取 消
+          </Button>
+        </Space>
+      </Form.Item>
     </Form>
   );
 };

@@ -1,8 +1,8 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
-import Iconfont from '../Iconfont';
+import Iconfont from '../../Iconfont';
 import { Form, Input } from 'antd';
-import CommonAttributes from '../CommonAttributes';
+import CommonAttributes from '../../CommonAttributes';
 
 interface PropTypes {
   name: string;
@@ -13,7 +13,6 @@ interface PropTypes {
   disabled?: boolean;
   mode?: string;
   onChange?: (values: any) => void;
-  onAttrPropsChange?: (changedValues: any, allValues: any) => void;
 }
 
 const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, onChange }) => {

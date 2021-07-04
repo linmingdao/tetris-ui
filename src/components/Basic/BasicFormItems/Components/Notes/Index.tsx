@@ -1,17 +1,15 @@
 import React from 'react';
+import { Form } from 'antd';
 import { nanoid } from 'nanoid';
-import Iconfont from '../Iconfont';
-import { Form, Input } from 'antd';
-import CommonAttributes from '../CommonAttributes';
-
-const { TextArea } = Input;
+import Iconfont from '../../Iconfont';
+import RichText from '../../../RichText';
+import CommonAttributes from '../../CommonAttributes';
 
 interface PropTypes {
   name: string;
   label?: string;
   notesHtml?: string;
   mode?: string;
-  onAttrPropsChange?: (changedValues: any, allValues: any) => void;
 }
 
 const Stage: React.FC<PropTypes> = ({ notesHtml }) => {
@@ -37,7 +35,7 @@ const Attr: React.FC<PropTypes> = props => {
       noRules
     >
       <Form.Item label="编辑注释" name="notesHtml">
-        <TextArea rows={6} placeholder="请直接输入注释信息，支持 html 格式" />
+        <RichText placeholder="请输入注释信息" />
       </Form.Item>
     </CommonAttributes>
   );
@@ -65,14 +63,14 @@ export const Notes = {
   name: 'Notes',
   instance: Builder,
   icon: <Iconfont type="icon-notes" />,
-  loader: () => import('./Notes'),
+  loader: () => import('./Index'),
   props: {
     name: nanoid(),
     label: '标题',
     value:
-      "<div>1、注释内容1</div><div>2、注释内容2，<a href='https://www.baidu.com' target='_blank'>百度</a></div><div>3、注释内容3</div><div>4、注释内容4</div><div style='color:#f5222d;'>注：直接支持 html 哟</div>",
+      "<div>1、注释内容1</div><div>2、注释内容2，<a href='https://www.baidu.com' target='_blank'>百度</a></div><div>3、注释内容3</div><div>4、注释内容4</div><div style='color:#f5222d;'></div>",
     notesHtml:
-      "<div>1、注释内容1</div><div>2、注释内容2，<a href='https://www.baidu.com' target='_blank'>百度</a></div><div>3、注释内容3</div><div>4、注释内容4</div><div style='color:#f5222d;'>注：直接支持 html 哟</div>",
+      "<div>1、注释内容1</div><div>2、注释内容2，<a href='https://www.baidu.com' target='_blank'>百度</a></div><div>3、注释内容3</div><div>4、注释内容4</div><div style='color:#f5222d;'></div>",
     mode: 'stage',
   },
 };

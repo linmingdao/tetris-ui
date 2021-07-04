@@ -11,7 +11,7 @@ import { isChildInFirstPlaceOfParent, isChildInTheEndPlaceOfParent } from '../ut
 const AttrDrawer: FC<{
   payload: { type: string; data: any };
   onClose: () => void;
-  onUpdate: (index: string, allValues: any, changedValues: any) => void;
+  onUpdate: (index: string, allValues: any) => void;
 }> = ({ payload, onClose, onUpdate }) => {
   const { attrPanelWidth } = useContext(EditorContext);
 
@@ -31,7 +31,7 @@ const AttrDrawer: FC<{
           placement="right"
           onClose={onClose}
           maskClosable={false}
-          width={attrPanelWidth ? attrPanelWidth : 400}
+          width={attrPanelWidth ? attrPanelWidth : 600}
         >
           <Attributes index={payload.data.index} config={payload.data.config} onClose={onClose} onUpdate={onUpdate} />
         </Drawer>

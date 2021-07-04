@@ -11,8 +11,8 @@ export interface CommonAttributesPropTypes {
   rules?: string[];
   placeholder?: string;
   initialValues?: any;
-  onAttrPropsChange?: (changedValues: any, allValues: any) => void;
-  valuesChangeInterceptor?: (changedValues: any, allValues: any) => { changedValues: any; allValues: any };
+  onSave?: (allValues: any) => void;
+  onCancel?: () => void;
   noRules?: boolean;
   noPlaceholder?: boolean;
   CustomAttr?: CustomAttrType;

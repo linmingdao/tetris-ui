@@ -93,7 +93,7 @@ export interface IAttributes {
   index: string;
   config: any;
   onClose: () => void;
-  onUpdate: (index: string, changedValues: any, allValues: any) => void;
+  onUpdate: (index: string, allValues: any) => void;
 }
 
 export interface CollapseProps {
@@ -109,7 +109,7 @@ export interface ISortableContainerProps {
   onUp: (index: string, item: StageItem) => void;
   onDown: (index: string, item: StageItem) => void;
   onRemove: (index: string, item: StageItem) => void;
-  onUpdate: (index: string, allValues: any, changedValues: any) => void;
+  onUpdate: (index: string, allValues: any) => void;
 }
 
 export interface ISortableItemProps {
@@ -119,7 +119,7 @@ export interface ISortableItemProps {
   onUp: (index: string, item: StageItem) => void;
   onDown: (index: string, item: StageItem) => void;
   onRemove: (index: string, item: StageItem) => void;
-  onUpdate: (index: string, allValues: any, changedValues: any) => void;
+  onUpdate: (index: string, allValues: any) => void;
 }
 
 export interface ISortHandlerProps {
@@ -132,7 +132,7 @@ export interface ISortHandlerProps {
   onUp: (index: string, item: StageItem) => void;
   onDown: (index: string, item: StageItem) => void;
   onRemove: (index: string, item: StageItem) => void;
-  onUpdate: (index: string, allValues: any, changedValues: any) => void;
+  onUpdate: (index: string, allValues: any) => void;
 }
 
 export type DeserializeDefaultToolbar = 'ok' | 'reset' | 'cancel';

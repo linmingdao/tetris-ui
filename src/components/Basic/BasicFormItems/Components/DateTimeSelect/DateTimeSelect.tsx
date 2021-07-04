@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import { nanoid } from 'nanoid';
-import Iconfont from '../Iconfont';
+import Iconfont from '../../Iconfont';
 import { Form, DatePicker } from 'antd';
-import CommonAttributes from '../CommonAttributes';
+import CommonAttributes from '../../CommonAttributes';
 
 interface PropTypes {
   name: string;
@@ -14,7 +14,6 @@ interface PropTypes {
   disabled?: boolean;
   mode?: string;
   onChange?: (values: any) => void;
-  onAttrPropsChange?: (changedValues: any, allValues: any) => void;
 }
 
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
