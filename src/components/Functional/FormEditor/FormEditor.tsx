@@ -24,7 +24,6 @@ const Editor: React.FC<IEditorProps> = ({ className, style, customToolbar }) => 
 
   const renderDefaultToolbar = () => {
     function handleExport() {
-      // FIXME: name唯一性校验
       onExport && onExport(present);
     }
 

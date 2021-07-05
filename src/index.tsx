@@ -32,6 +32,7 @@ export { TextInput } from './components/Basic/BasicFormItems/Components/TextInpu
 export { RadioGroup } from './components/Basic/BasicFormItems/Components/RadioGroup/Index';
 export { CheckboxGroup } from './components/Basic/BasicFormItems/Components/CheckboxGroup/Index';
 export { DateTimeSelect } from './components/Basic/BasicFormItems/Components/DateTimeSelect/DateTimeSelect';
+export { DateRangeSelect } from './components/Basic/BasicFormItems/Components/DateRangeSelect/DateRangeSelect';
 export { SortableContainer } from './components/Basic/BasicFormItems/Components/SortableContainer/SortableContainer';
 
 // 表单编辑器_基础表单组件_选项列渲染器

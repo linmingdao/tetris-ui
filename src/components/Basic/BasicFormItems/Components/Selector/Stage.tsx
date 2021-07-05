@@ -17,6 +17,7 @@ const Stage: FC<SelectorProps> = props => {
 
   return (
     <Select
+      allowClear
       value={value}
       disabled={disabled}
       onChange={handleChange}

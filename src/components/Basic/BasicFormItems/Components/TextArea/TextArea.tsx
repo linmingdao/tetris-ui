@@ -32,7 +32,6 @@ const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, rows, onChan
 
 const Preview: React.FC<PropTypes> = props => {
   const { value, placeholder } = props;
-  // return <div>{props.value}</div>;
   return <Input.TextArea value={value} bordered={false} readOnly placeholder={placeholder} autoSize />;
 };
 

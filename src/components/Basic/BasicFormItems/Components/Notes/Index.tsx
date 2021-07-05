@@ -68,9 +68,9 @@ export const Notes = {
     name: nanoid(),
     label: '标题',
     value:
-      "<div>1、注释内容1</div><div>2、注释内容2，<a href='https://www.baidu.com' target='_blank'>百度</a></div><div>3、注释内容3</div><div>4、注释内容4</div><div style='color:#f5222d;'></div>",
+      '<p>1、注释内容1</p><p>2、注释内容2，<a href="https://www.baidu.com" target="_blank">百度</a></p><p>3、注释内容3</p><p>4、注释内容4</p><p>5、哈哈哈哈哈哈</p>',
     notesHtml:
-      "<div>1、注释内容1</div><div>2、注释内容2，<a href='https://www.baidu.com' target='_blank'>百度</a></div><div>3、注释内容3</div><div>4、注释内容4</div><div style='color:#f5222d;'></div>",
+      '<p>1、注释内容1</p><p>2、注释内容2，<a href="https://www.baidu.com" target="_blank">百度</a></p><p>3、注释内容3</p><p>4、注释内容4</p><p>5、哈哈哈哈哈哈</p>',
     mode: 'stage',
   },
 };

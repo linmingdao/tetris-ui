@@ -13,7 +13,7 @@ const Attr: FC<SelectorProps> = props => {
         ...props,
         onSave,
         onCancel,
-        initialValues: { value, optionList },
+        initialValues: { value, optionList, selectMode },
       }}
     >
       <Form.Item label="value" name="value">
@@ -26,7 +26,14 @@ const Attr: FC<SelectorProps> = props => {
             ))}
         </Select>
       </Form.Item>
-      <Form.Item label="单选or多选" name="selectMode">
+      <Form.Item
+        label={
+          <span>
+            单选 or 多选(<span style={{ color: '#ff4d4e', fontSize: '12px' }}>更改模式后请先保存才能生效</span>)
+          </span>
+        }
+        name="selectMode"
+      >
         <Select placeholder="请选择" style={{ width: '100%' }}>
           <Select.Option value="undefined">单选</Select.Option>
           <Select.Option value="multiple">多选</Select.Option>

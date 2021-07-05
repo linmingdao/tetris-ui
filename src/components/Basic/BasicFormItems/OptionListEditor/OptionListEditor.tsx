@@ -30,7 +30,19 @@ export const rednerOptionListEditor = () => {
       {(fields, { add, remove }, { errors }) => (
         <>
           {fields.map((field, index) => (
-            <Form.Item key={field.key} required={false} label={index === 0 ? '选项信息' : ''}>
+            <Form.Item
+              key={field.key}
+              required={false}
+              label={
+                index === 0 ? (
+                  <span>
+                    选项信息(<span style={{ color: '#ff4d4e', fontSize: '12px' }}>更改选项信息后请先保存才能生效</span>)
+                  </span>
+                ) : (
+                  ''
+                )
+              }
+            >
               <Form.Item {...field} validateTrigger={['onChange', 'onBlur']} rules={[{ validator: optionValidator }]} noStyle>
                 <OptionEditor onRemove={() => remove(field.name)} />
               </Form.Item>

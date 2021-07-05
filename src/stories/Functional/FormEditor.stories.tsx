@@ -5,7 +5,18 @@ import { SaveOutlined, BuildOutlined } from '@ant-design/icons';
 import { stageItems } from './formEditorMockData';
 import { FormEditor } from '../../index';
 import { Required, Email, MobilePhone } from '../../index';
-import { SortableContainer, TextInput, TextArea, CheckboxGroup, Notes, NumInput, RadioGroup, DateTimeSelect, Selector } from '../../index';
+import {
+  SortableContainer,
+  TextInput,
+  TextArea,
+  CheckboxGroup,
+  Notes,
+  NumInput,
+  RadioGroup,
+  DateTimeSelect,
+  DateRangeSelect,
+  Selector,
+} from '../../index';
 import { FormEditorProps, StageItem, DeserializationProps } from '../../components/Functional/FormEditor/types';
 
 export default {
@@ -28,7 +39,7 @@ export default {
 
 const groupIcons = { 基础组件: <BuildOutlined /> };
 
-const templates = { SortableContainer, TextInput, TextArea, CheckboxGroup, Notes, NumInput, RadioGroup, DateTimeSelect, Selector };
+const templates = { SortableContainer, TextInput, TextArea, CheckboxGroup, Notes, NumInput, RadioGroup, DateTimeSelect, DateRangeSelect, Selector };
 
 const formEditorTemplate: Story<FormEditorProps> = args => <FormEditor {...args} />;
 

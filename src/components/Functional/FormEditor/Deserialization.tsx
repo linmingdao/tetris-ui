@@ -1,5 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Iconfont from './Iconfont';
+import Loading from '../../Basic/Loading';
 import { Form, Button, Space, Popconfirm } from 'antd';
 import { DeserializationProps, IRules, StageItem, Templates } from './types';
 import { flatStageItemList, mergeFlatValues } from './utils/deserialization';
@@ -66,13 +67,23 @@ export const Deserialization: FC<DeserializationProps> = ({
   defaultToolbar = ['ok', 'reset', 'cancel'],
 }) => {
   const [form] = Form.useForm();
-  const { indexMap, cascadeValues, flatInitialValues } = flatStageItemList(stageItems);
+  const [flatResult, setFlatResult] = useState<any>(undefined);
+  const [localMode, setLocalMode] = useState<'stage' | 'preview'>('stage');
+
+  useEffect(() => {
+    setLocalMode(mode);
+  }, [mode]);
+
+  useEffect(() => {
+    const { indexMap, cascadeValues, flatInitialValues } = flatStageItemList(stageItems);
+    setFlatResult({ indexMap, cascadeValues, flatInitialValues });
+  }, [stageItems]);
 
   function getValues() {
     return new Promise((resovle, reject) => {
       form
         .validateFields()
-        .then(flatValues => resovle(mergeFlatValues(cascadeValues, flatValues)))
+        .then(flatValues => resovle(mergeFlatValues(flatResult.cascadeValues, flatValues)))
         .catch(err => reject(err));
     });
   }
@@ -94,23 +105,23 @@ export const Deserialization: FC<DeserializationProps> = ({
   function handleValuesChange(changedValues: any, flatValues: any) {
     onValuesChange &&
       onValuesChange({
-        indexMap,
-        index: indexMap[Object.keys(changedValues)[0]],
+        indexMap: flatResult.indexMap,
+        index: flatResult.indexMap[Object.keys(changedValues)[0]],
         flatValues,
         changedValues,
-        allValues: mergeFlatValues(cascadeValues, flatValues),
+        allValues: mergeFlatValues(flatResult.cascadeValues, flatValues),
       });
   }
 
-  return (
+  return flatResult ? (
     <Form
       form={form}
       layout="vertical"
-      initialValues={flatInitialValues}
+      initialValues={flatResult.flatInitialValues}
       onValuesChange={handleValuesChange}
       className="tetris-bricks_deserialization"
     >
-      {stageItems.map((stageItem: StageItem) => loop(stageItem, templates, mode, 0, indent, rules))}
+      {stageItems.map((stageItem: StageItem) => loop(stageItem, templates, localMode, 0, indent, rules))}
       <Form.Item style={{ borderTop: '1px solid #eee' }}>
         <Space style={{ width: '100%', justifyContent: 'flex-end', padding: '10px 0' }}>
           {defaultToolbar.includes('ok') && (
@@ -134,6 +145,8 @@ export const Deserialization: FC<DeserializationProps> = ({
         </Space>
       </Form.Item>
     </Form>
+  ) : (
+    <Loading tip="加载中..." />
   );
 };
 

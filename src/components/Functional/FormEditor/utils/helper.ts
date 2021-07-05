@@ -8,27 +8,6 @@ export function getComponentErrorTips(name?: string) {
   }
 }
 
-export function checkStageItemPropsNameUniqueness(stageItemList: StageItem[]): string {
-  // FIXME: 完善我
-  if (!stageItemList || !stageItemList.length) {
-    return '您还未拖拽任何组件哟，请先拖拽基础组件组合生成您的模板~~';
-  }
-
-  const existNames: any = {};
-  for (const item of stageItemList) {
-    const name = item.props.name;
-    if (!name || !name.trim()) {
-      return '表单控件的【name】属性不能为空哟~~';
-    }
-    if (existNames[name]) {
-      return '表单控件的【name】属性要保证唯一哟~~';
-    }
-    existNames[name] = name;
-  }
-
-  return '';
-}
-
 /**
  * 对传入的模板信息进行分组
  * @param templates

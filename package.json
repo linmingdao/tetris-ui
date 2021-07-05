@@ -62,6 +62,7 @@
   "peerDependencies": {
     "antd": ">=4.8.5",
     "react": ">=16.8.0",
+    "moment": ">=2.29.1",
     "react-dom": ">=16.8.0",
     "react-router-dom": ">=5.1.2"
   },

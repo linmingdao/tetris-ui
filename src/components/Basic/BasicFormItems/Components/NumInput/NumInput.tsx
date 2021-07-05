@@ -29,7 +29,6 @@ const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, onChange }) 
 
 const Preview: React.FC<PropTypes> = props => {
   const { value, placeholder } = props;
-  // return <div>{props.value}</div>;
   return <InputNumber value={value} readOnly bordered={false} placeholder={placeholder} />;
 };
 

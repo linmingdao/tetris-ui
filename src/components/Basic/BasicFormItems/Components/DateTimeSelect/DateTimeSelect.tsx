@@ -7,13 +7,13 @@ import CommonAttributes from '../../CommonAttributes';
 
 interface PropTypes {
   name: string;
-  value?: any;
+  value?: string;
   label?: string;
   rules?: string[];
   placeholder?: string;
   disabled?: boolean;
   mode?: string;
-  onChange?: (values: any) => void;
+  onChange?: (value: any) => void;
 }
 
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
@@ -27,12 +27,13 @@ const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, onChange }) 
     onChange && onChange(newVal);
   };
 
-  const val = typeof value === 'string' && value ? moment(value, DATE_TIME_FORMAT) : undefined;
+  const val = value ? moment(value, DATE_TIME_FORMAT) : null;
 
   return (
     <DatePicker
       value={val}
-      showTime={true}
+      showTime
+      allowClear
       disabled={disabled}
       format={DATE_TIME_FORMAT}
       style={{ width: '100%' }}
@@ -44,14 +45,14 @@ const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, onChange }) 
 
 const Preview: React.FC<PropTypes> = props => {
   const { value, placeholder } = props;
-  // return <div>{moment(value.valueOf()).format(DATE_TIME_FORMAT)}</div>;
-  const val = typeof value === 'string' && value ? moment(value, DATE_TIME_FORMAT) : undefined;
-  return <DatePicker bordered={false} disabled value={val} showTime={true} format={DATE_TIME_FORMAT} placeholder={placeholder} />;
+  const val = value ? moment(value, DATE_TIME_FORMAT) : null;
+
+  return <DatePicker bordered={false} disabled value={val} showTime format={DATE_TIME_FORMAT} placeholder={placeholder} />;
 };
 
 const Attr: React.FC<PropTypes> = props => {
   const { value } = props;
-  const val = typeof value === 'string' ? moment(value, DATE_TIME_FORMAT) : value;
+  const val = value ? moment(value, DATE_TIME_FORMAT) : null;
 
   return (
     <CommonAttributes
@@ -61,7 +62,7 @@ const Attr: React.FC<PropTypes> = props => {
       }}
     >
       <Form.Item label="value" name="value">
-        <DatePicker showTime={true} format={DATE_TIME_FORMAT} placeholder="请选择" style={{ width: '100%' }} />
+        <DatePicker showTime format={DATE_TIME_FORMAT} placeholder="请选择日期" style={{ width: '100%' }} />
       </Form.Item>
     </CommonAttributes>
   );
@@ -84,16 +85,16 @@ export default Builder;
 
 export const DateTimeSelect = {
   group: '基础组件',
-  label: '日期选择器',
+  label: '日期',
   name: 'DateTimeSelect',
   instance: Builder,
   icon: <Iconfont type="icon-datetimeselect" />,
   loader: () => import('./DateTimeSelect'),
   props: {
     name: nanoid(),
-    value: moment(),
-    label: '时间',
-    placeholder: '请选择',
+    value: undefined,
+    label: '日期',
+    placeholder: '请选择日期',
     mode: 'stage',
   },
 };
