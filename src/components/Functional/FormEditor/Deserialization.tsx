@@ -1,11 +1,12 @@
-import React, { FC, useEffect, useState } from 'react';
 import Iconfont from './Iconfont';
 import Loading from '../../Basic/Loading';
+import React, { FC, useEffect, useState } from 'react';
 import { Form, Button, Space, Popconfirm } from 'antd';
 import { DeserializationProps, IRules, StageItem, Templates } from './types';
-import { flatStageItemList, mergeFlatValues } from './utils/deserialization';
+import { flatStageItemList, mergeFlatValues, getFieldNames } from './utils/deserialization';
 
 function loop(
+  parentName: string,
   stageItem: StageItem,
   templates: Templates,
   mode: 'stage' | 'preview',
@@ -27,7 +28,9 @@ function loop(
         }
       >
         {/* 渲染容器下的子控件 */}
-        {stageItem.children.map((childStageItem: StageItem) => loop(childStageItem, templates, mode, cascadeLevel + 1, indent, rules))}
+        {stageItem.children.map((childStageItem: StageItem) =>
+          loop(stageItem.props.name, childStageItem, templates, mode, cascadeLevel + 1, indent, rules)
+        )}
       </Form.Item>
     );
   } else {
@@ -40,7 +43,7 @@ function loop(
       <Form.Item
         rules={formItemRules}
         key={stageItem.props.name}
-        name={stageItem.props.name}
+        name={`${parentName ? parentName + '::' : ''}${stageItem.props.name}`}
         label={stageItem.props.label}
         style={{ marginLeft: cascadeLevel * indent }}
       >
@@ -83,7 +86,7 @@ export const Deserialization: FC<DeserializationProps> = ({
     return new Promise((resovle, reject) => {
       form
         .validateFields()
-        .then(flatValues => resovle(mergeFlatValues(flatResult.cascadeValues, flatValues)))
+        .then(flatValues => resovle(mergeFlatValues(flatResult.cascadeValues, flatValues, getFieldNames(flatValues))))
         .catch(err => reject(err));
     });
   }
@@ -109,7 +112,7 @@ export const Deserialization: FC<DeserializationProps> = ({
         index: flatResult.indexMap[Object.keys(changedValues)[0]],
         flatValues,
         changedValues,
-        allValues: mergeFlatValues(flatResult.cascadeValues, flatValues),
+        allValues: mergeFlatValues(flatResult.cascadeValues, flatValues, getFieldNames(flatValues)),
       });
   }
 
@@ -121,7 +124,7 @@ export const Deserialization: FC<DeserializationProps> = ({
       onValuesChange={handleValuesChange}
       className="tetris-bricks_deserialization"
     >
-      {stageItems.map((stageItem: StageItem) => loop(stageItem, templates, localMode, 0, indent, rules))}
+      {stageItems.map((stageItem: StageItem) => loop('', stageItem, templates, localMode, 0, indent, rules))}
       <Form.Item style={{ borderTop: '1px solid #eee' }}>
         <Space style={{ width: '100%', justifyContent: 'flex-end', padding: '10px 0' }}>
           {defaultToolbar.includes('ok') && (

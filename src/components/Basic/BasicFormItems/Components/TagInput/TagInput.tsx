@@ -1,7 +1,7 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
 import Iconfont from '../../Iconfont';
-import { Form, Input } from 'antd';
+import { Form, Select } from 'antd';
 import CommonAttributes from '../../CommonAttributes';
 
 interface PropTypes {
@@ -16,8 +16,7 @@ interface PropTypes {
 }
 
 const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, onChange }) => {
-  const handleChange = (e: { target: { value: any } }) => {
-    const value = e.target.value ? e.target.value.trim() : undefined;
+  const handleChange = (value: any) => {
     triggerChange(value);
   };
 
@@ -25,12 +24,14 @@ const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, onChange }) 
     onChange && onChange(newVal);
   };
 
-  return <Input value={value} disabled={disabled} placeholder={placeholder} onChange={handleChange} allowClear />;
+  return (
+    <Select mode="tags" style={{ width: '100%' }} value={value} disabled={disabled} placeholder={placeholder} onChange={handleChange} allowClear />
+  );
 };
 
 const Preview: React.FC<PropTypes> = props => {
   const { value, placeholder } = props;
-  return <Input value={value} bordered={false} readOnly placeholder={placeholder} />;
+  return <Select mode="tags" value={value} disabled placeholder={placeholder} />;
 };
 
 const Attr: React.FC<PropTypes> = props => {
@@ -39,7 +40,7 @@ const Attr: React.FC<PropTypes> = props => {
   return (
     <CommonAttributes {...{ ...props, initialValues: { value } }}>
       <Form.Item label="value" name="value">
-        <Input placeholder="请输入" allowClear />
+        <Select mode="tags" placeholder="请输入tags" allowClear />
       </Form.Item>
     </CommonAttributes>
   );
@@ -60,18 +61,18 @@ const Builder: React.FC<PropTypes> = props => {
 
 export default Builder;
 
-export const TextInput = {
+export const TagInput = {
   group: '基础组件',
-  label: '输入框',
-  name: 'TextInput',
+  label: 'Tag输入框',
+  name: 'TagInput',
   instance: Builder,
-  icon: <Iconfont type="icon-input" />,
-  loader: () => import('./TextInput'),
+  icon: <Iconfont type="icon-tag" />,
+  loader: () => import('./TagInput'),
   props: {
     name: nanoid(),
     value: undefined,
     label: '标题',
-    placeholder: '请输入',
+    placeholder: '请输入tags',
     mode: 'stage',
   },
 };

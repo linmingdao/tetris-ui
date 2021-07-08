@@ -49,9 +49,9 @@ const Stage: React.FC<{
   function onRemove(index: string, stageItem: StageItem) {
     if (index.includes('-')) {
       // 容器内嵌节点
-      const { parent, child } = findStageItemByIndex(index, stageItemList);
+      const { parent, target } = findStageItemByIndex(index, stageItemList);
       if (parent && parent.children) {
-        parent.children = parent.children.filter(item => item.id !== child?.id);
+        parent.children = parent.children.filter(item => item.id !== target?.id);
         onChange(stageItemList);
       }
     } else {
@@ -63,9 +63,9 @@ const Stage: React.FC<{
   function onUpdate(index: string, allValues: unknown) {
     if (index.includes('-')) {
       // 容器内嵌节点
-      const { parent, child } = findStageItemByIndex(index, stageItemList);
-      if (parent && parent.children && child) {
-        child.props = allValues;
+      const { parent, target } = findStageItemByIndex(index, stageItemList);
+      if (parent && parent.children && target) {
+        target.props = allValues;
         onChange(stageItemList);
       }
     } else {
@@ -78,10 +78,10 @@ const Stage: React.FC<{
   function onUp(index: string) {
     if (index.includes('-')) {
       // 容器内嵌节点排序
-      const { parent, childIndex } = findStageItemByIndex(index, stageItemList);
+      const { parent, targetIndex } = findStageItemByIndex(index, stageItemList);
       if (parent && parent.children) {
-        if (!childIndex) return;
-        const idx = childIndex;
+        if (!targetIndex) return;
+        const idx = targetIndex;
         const preIdx = idx - 1;
         [parent.children[idx], parent.children[preIdx]] = [parent.children[preIdx], parent.children[idx]];
         onChange(stageItemList);
@@ -99,10 +99,10 @@ const Stage: React.FC<{
   function onDown(index: string) {
     if (index.includes('-')) {
       // 容器内嵌节点排序
-      const { parent, childIndex } = findStageItemByIndex(index, stageItemList);
-      if (parent && parent.children && childIndex !== undefined) {
-        if (childIndex === parent.children.length - 1) return;
-        const idx = childIndex;
+      const { parent, targetIndex } = findStageItemByIndex(index, stageItemList);
+      if (parent && parent.children && targetIndex !== undefined) {
+        if (targetIndex === parent.children.length - 1) return;
+        const idx = targetIndex;
         const nextIdx = idx + 1;
         [parent.children[nextIdx], parent.children[idx]] = [parent.children[idx], parent.children[nextIdx]];
         onChange(stageItemList);

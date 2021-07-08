@@ -27,6 +27,7 @@ export { default as CommonAttributes } from './components/Basic/BasicFormItems';
 export { Notes } from './components/Basic/BasicFormItems/Components/Notes/Index';
 export { Selector } from './components/Basic/BasicFormItems/Components/Selector/Index';
 export { NumInput } from './components/Basic/BasicFormItems/Components/NumInput/NumInput';
+export { TagInput } from './components/Basic/BasicFormItems/Components/TagInput/TagInput';
 export { TextArea } from './components/Basic/BasicFormItems/Components/TextArea/TextArea';
 export { TextInput } from './components/Basic/BasicFormItems/Components/TextInput/TextInput';
 export { RadioGroup } from './components/Basic/BasicFormItems/Components/RadioGroup/Index';

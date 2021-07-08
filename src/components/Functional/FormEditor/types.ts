@@ -92,6 +92,7 @@ export interface IAttributes {
   style?: React.CSSProperties;
   index: string;
   config: any;
+  stageItemList: StageItem[];
   onClose: () => void;
   onUpdate: (index: string, allValues: any) => void;
 }

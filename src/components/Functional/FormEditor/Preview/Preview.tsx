@@ -6,7 +6,7 @@ import PreviewContent from './PreviewContent';
 const Preview: FC<{ stageItems: StageItem[] | undefined; onClose: () => void }> = ({ stageItems, onClose }) => {
   if (stageItems) {
     return (
-      <Drawer title="预览" destroyOnClose placement="left" width="700" closable maskClosable onClose={onClose} visible={true}>
+      <Drawer title="预览" destroyOnClose placement="left" width="600" closable maskClosable onClose={onClose} visible={true}>
         <PreviewContent stageItems={stageItems} onClose={onClose} />
       </Drawer>
     );

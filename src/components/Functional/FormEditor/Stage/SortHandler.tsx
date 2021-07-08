@@ -2,14 +2,14 @@ import classnames from 'classnames';
 import { useDrop } from 'react-dnd';
 import Attributes from '../Attributes';
 import { Drawer, Popconfirm, Space } from 'antd';
-import { ISortHandlerProps } from '../types';
+import { ISortHandlerProps, StageItem } from '../types';
 import { EditorContext } from '../EditorContext';
 import React, { FC, useContext, useRef, useState } from 'react';
 import { ArrowUpOutlined, MinusCircleOutlined, SettingOutlined, ToolOutlined } from '@ant-design/icons';
 import { isChildInFirstPlaceOfParent, isChildInTheEndPlaceOfParent } from '../utils/helper';
 
 const AttrDrawer: FC<{
-  payload: { type: string; data: any };
+  payload: { type: string; data: any; stageItemList: StageItem[] };
   onClose: () => void;
   onUpdate: (index: string, allValues: any) => void;
 }> = ({ payload, onClose, onUpdate }) => {
@@ -18,7 +18,8 @@ const AttrDrawer: FC<{
   if (!payload) return <></>;
 
   switch (payload.type) {
-    case 'attr':
+    case 'attr': {
+      const { stageItemList, data } = payload;
       return (
         <Drawer
           title={
@@ -33,9 +34,10 @@ const AttrDrawer: FC<{
           maskClosable={false}
           width={attrPanelWidth ? attrPanelWidth : 600}
         >
-          <Attributes index={payload.data.index} config={payload.data.config} onClose={onClose} onUpdate={onUpdate} />
+          <Attributes onClose={onClose} onUpdate={onUpdate} index={data.index} config={data.config} stageItemList={stageItemList} />
         </Drawer>
       );
+    }
     default:
       return <></>;
   }
@@ -88,7 +90,10 @@ const SortHandler: FC<ISortHandlerProps> = ({
             </Popconfirm>
             {!isChildInFirstPlaceOfParent(index) && <ArrowUpOutlined style={{ color: '#555' }} onClick={handleUp} />}
             {!isChildInTheEndPlaceOfParent(index, stageItemList) && <ArrowUpOutlined style={{ color: '#555' }} rotate={180} onClick={handleDown} />}
-            <SettingOutlined style={{ color: '#555' }} onClick={() => setAttrDrawerPayload({ type: 'attr', data: { index, config: itemData } })} />
+            <SettingOutlined
+              style={{ color: '#555' }}
+              onClick={() => setAttrDrawerPayload({ type: 'attr', data: { index, config: itemData }, stageItemList })}
+            />
           </Space>
         </div>
       </div>

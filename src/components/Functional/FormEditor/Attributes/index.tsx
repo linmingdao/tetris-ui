@@ -1,13 +1,20 @@
 import React from 'react';
-import { Empty } from 'antd';
+import { Empty, message } from 'antd';
 import { Mode } from '../constants';
 import { IAttributes } from '../types';
 import DynamicEngine from '../DynamicEngine';
+import { findSiblingStageItemsByIndex } from '../utils/helper';
 
-const Attributes: React.FC<IAttributes> = ({ index, config, onClose, onUpdate }) => {
+const Attributes: React.FC<IAttributes> = ({ index, config, onClose, onUpdate, stageItemList }) => {
   function onSave(allValues: any) {
-    onUpdate(index, allValues);
-    onClose();
+    const siblingStageItems = findSiblingStageItemsByIndex(index, stageItemList);
+    const res = siblingStageItems.find(item => item.props.name === allValues.name);
+    if (res) {
+      message.warning(`兄弟控件之间的【name】属性需要保证唯一，该控件与【类型为：${res.name}，label为：${res.props.label}】的控件重名了`);
+    } else {
+      onUpdate(index, allValues);
+      onClose();
+    }
   }
 
   function onCancel() {

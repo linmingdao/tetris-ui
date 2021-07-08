@@ -35,8 +35,8 @@ const CommonAttributes: React.FC<CommonAttributesPropTypes> = props => {
 
   return (
     <Form layout="vertical" labelAlign="left" initialValues={getInitialValues()} onFinish={onFinish}>
-      <Form.Item label="name" name="name" rules={[{ required: true, message: '控件名称必填' }]}>
-        <Input placeholder="请输入" disabled allowClear />
+      <Form.Item label="name" name="name" rules={[{ required: true, message: '控件名称必填且必须保证唯一' }]}>
+        <Input placeholder="请输入" allowClear />
       </Form.Item>
       <Form.Item label="label" name="label" rules={[{ required: true, message: '控件label必填' }]}>
         <Input placeholder="请输入" allowClear />

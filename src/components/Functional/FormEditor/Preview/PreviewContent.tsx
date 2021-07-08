@@ -1,5 +1,6 @@
-import { Radio } from 'antd';
+import { message, Radio } from 'antd';
 import { StageItem } from '../types';
+import cloneDeep from 'lodash.clonedeep';
 import { EditorContext } from '../EditorContext';
 import { Deserialization } from '../Deserialization';
 import React, { FC, useContext, useEffect, useState } from 'react';
@@ -7,7 +8,7 @@ import React, { FC, useContext, useEffect, useState } from 'react';
 const Preview: FC<{ stageItems: StageItem[] | undefined; onClose: () => void }> = ({ stageItems, onClose }) => {
   const { templates, rules } = useContext(EditorContext);
   const [mode, setMode] = useState<'stage' | 'preview'>('stage');
-  const [localStageItems, setLocalStageItems] = useState<StageItem[]>(stageItems || []);
+  const [localStageItems, setLocalStageItems] = useState<StageItem[]>(cloneDeep(stageItems) || []);
 
   function changeMode(stageItems: StageItem[], mode: 'preview' | 'stage'): StageItem[] {
     stageItems.forEach(item => {
@@ -15,9 +16,14 @@ const Preview: FC<{ stageItems: StageItem[] | undefined; onClose: () => void }> 
         changeMode(item.children, mode);
       } else {
         item.props.mode = mode;
+        item.props.rules = [];
       }
     });
     return stageItems;
+  }
+
+  function onOk(values: any) {
+    message.success(`待提交的表单数据：${JSON.stringify(values)}`);
   }
 
   useEffect(() => {
@@ -33,7 +39,7 @@ const Preview: FC<{ stageItems: StageItem[] | undefined; onClose: () => void }> 
     return (
       <>
         <div>
-          表单显示的模式：
+          显示模式：
           <Radio.Group
             value={mode}
             optionType="button"
@@ -45,15 +51,16 @@ const Preview: FC<{ stageItems: StageItem[] | undefined; onClose: () => void }> 
             onChange={(e: any) => setMode(e.target.value)}
           />
         </div>
-        <div style={{ marginTop: 10 }}>表单内容：</div>
-        <div style={{ padding: '10px 100px' }}>
+        <div style={{ margin: '10px 0' }}>表单内容：</div>
+        <div style={{ padding: '10px', border: '1px solid #eee' }}>
           <Deserialization
             mode={mode}
             rules={rules}
             templates={templates}
             stageItems={localStageItems}
             onCancel={onClose}
-            defaultToolbar={mode === 'stage' ? ['cancel', 'reset'] : []}
+            onOK={onOk}
+            defaultToolbar={mode === 'stage' ? ['ok', 'cancel', 'reset'] : []}
           />
         </div>
       </>

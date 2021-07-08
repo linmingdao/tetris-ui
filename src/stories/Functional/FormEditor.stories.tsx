@@ -7,6 +7,7 @@ import { FormEditor } from '../../index';
 import { Required, Email, MobilePhone } from '../../index';
 import {
   SortableContainer,
+  TagInput,
   TextInput,
   TextArea,
   CheckboxGroup,
@@ -39,7 +40,19 @@ export default {
 
 const groupIcons = { 基础组件: <BuildOutlined /> };
 
-const templates = { SortableContainer, TextInput, TextArea, CheckboxGroup, Notes, NumInput, RadioGroup, DateTimeSelect, DateRangeSelect, Selector };
+const templates = {
+  SortableContainer,
+  TextInput,
+  TagInput,
+  TextArea,
+  CheckboxGroup,
+  Notes,
+  NumInput,
+  RadioGroup,
+  DateTimeSelect,
+  DateRangeSelect,
+  Selector,
+};
 
 const formEditorTemplate: Story<FormEditorProps> = args => <FormEditor {...args} />;
 

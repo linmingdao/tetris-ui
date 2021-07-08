@@ -29,13 +29,13 @@ export function groupTemplates(templates: Templates): GroupedTemplates {
 }
 
 /**
- * 通过下标找到当前节点(child)和父节点(parent)
+ * 通过下标找到当前节点(target)和父节点(parent)
  * @param index
  * @param stageItemList
  * @returns
  */
-export function findStageItemByIndex(index: string, stageItemList: StageItem[]): { child?: StageItem; parent?: StageItem; childIndex?: number } {
-  const res: { child?: StageItem; parent?: StageItem; childIndex?: number } = {};
+export function findStageItemByIndex(index: string, stageItemList: StageItem[]): { target?: StageItem; parent?: StageItem; targetIndex?: number } {
+  const res: { target?: StageItem; parent?: StageItem; targetIndex?: number } = {};
   if (index.includes('-')) {
     const idxArr = index.split('-');
     let target: StageItem = stageItemList[Number(idxArr[0])];
@@ -46,14 +46,28 @@ export function findStageItemByIndex(index: string, stageItemList: StageItem[]):
       // 找到父节点
       idxArr.length - i === 2 && (res.parent = target);
       // 找到子节点
-      idxArr.length - i === 1 && ((res.child = target), (res.childIndex = currentIdx));
+      idxArr.length - i === 1 && ((res.target = target), (res.targetIndex = currentIdx));
     }
   } else {
-    res.child = stageItemList[Number(index)];
-    res.parent = stageItemList[Number(index)];
+    res.target = stageItemList[Number(index)];
   }
 
   return res;
+}
+
+/**
+ * 通过下标找到所有兄弟节点
+ * @param index
+ * @param stageItemList
+ * @returns
+ */
+export function findSiblingStageItemsByIndex(index: string, stageItemList: StageItem[]): StageItem[] {
+  const { parent, target } = findStageItemByIndex(index, stageItemList);
+  if (target && parent && parent.children) {
+    return parent.children.filter(item => item.id !== target.id) || [];
+  } else {
+    return stageItemList.filter(item => item.id !== target?.id);
+  }
 }
 
 /**
