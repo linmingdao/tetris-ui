@@ -1,6 +1,6 @@
 {
   "name": "tetris-ui",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "private": false,
   "description": "tetris-ui is an react components lib base on antd",
   "author": "linmingdao",
