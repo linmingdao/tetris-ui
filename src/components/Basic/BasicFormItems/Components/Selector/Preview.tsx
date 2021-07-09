@@ -5,7 +5,7 @@ import { SelectorProps } from './types';
 const Preview: FC<SelectorProps> = props => {
   const { selectMode, optionList, value, placeholder } = props;
   return (
-    <Select value={value} disabled bordered={false} placeholder={placeholder} mode={selectMode === 'multiple' ? 'multiple' : undefined}>
+    <Select value={value} disabled placeholder={placeholder} style={{ width: '100%' }} mode={selectMode === 'multiple' ? 'multiple' : undefined}>
       {optionList &&
         optionList.map(item => {
           return (

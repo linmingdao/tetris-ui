@@ -30,7 +30,7 @@ const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, onChange }) 
 
 const Preview: React.FC<PropTypes> = props => {
   const { value, placeholder } = props;
-  return <Input value={value} bordered={false} readOnly placeholder={placeholder} />;
+  return <Input value={value} disabled placeholder={placeholder} />;
 };
 
 const Attr: React.FC<PropTypes> = props => {

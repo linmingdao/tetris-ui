@@ -3,21 +3,8 @@ import { Checkbox } from 'antd';
 import { CheckboxGroupProps } from './types';
 
 const Preview: FC<CheckboxGroupProps> = props => {
-  // const { optionsList, value } = props;
-  // return (
-  //   <div>
-  //     {value &&
-  //       value.length &&
-  //       value
-  //         .map(val => {
-  //           const target = (optionsList as any[]).find(item => item.value === val);
-  //           return target ? target.label : val;
-  //         })
-  //         .join(', ')}
-  //   </div>
-  // );
   const { optionList, value } = props;
-  return <Checkbox.Group value={value} options={optionList} />;
+  return <Checkbox.Group value={value} disabled options={optionList} />;
 };
 
 export default Preview;

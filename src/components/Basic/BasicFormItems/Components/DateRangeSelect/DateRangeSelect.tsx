@@ -56,7 +56,7 @@ const Preview: React.FC<PropTypes> = props => {
     <DatePicker.RangePicker
       showTime
       disabled
-      bordered={false}
+      style={{ width: '100%' }}
       value={rangeVal}
       format={DATE_TIME_FORMAT}
       placeholder={[startPlaceholder, endPlaceholder]}

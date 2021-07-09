@@ -31,7 +31,7 @@ const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, onChange }) 
 
 const Preview: React.FC<PropTypes> = props => {
   const { value, placeholder } = props;
-  return <Select mode="tags" value={value} disabled placeholder={placeholder} />;
+  return <Select mode="tags" value={value} style={{ width: '100%' }} disabled placeholder={placeholder} />;
 };
 
 const Attr: React.FC<PropTypes> = props => {

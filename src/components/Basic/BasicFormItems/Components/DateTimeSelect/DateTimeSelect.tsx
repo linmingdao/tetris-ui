@@ -47,7 +47,7 @@ const Preview: React.FC<PropTypes> = props => {
   const { value, placeholder } = props;
   const val = value ? moment(value, DATE_TIME_FORMAT) : null;
 
-  return <DatePicker bordered={false} disabled value={val} showTime format={DATE_TIME_FORMAT} placeholder={placeholder} />;
+  return <DatePicker disabled value={val} showTime style={{ width: '100%' }} format={DATE_TIME_FORMAT} placeholder={placeholder} />;
 };
 
 const Attr: React.FC<PropTypes> = props => {
