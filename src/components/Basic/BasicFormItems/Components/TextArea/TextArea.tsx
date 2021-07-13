@@ -19,7 +19,7 @@ interface PropTypes {
 
 const Stage: React.FC<PropTypes> = ({ disabled, placeholder, value, rows, onChange }) => {
   const handleChange = (e: { target: { value: any } }) => {
-    const value = e.target.value ? e.target.value.trim() : undefined;
+    const value = e.target.value ? e.target.value : undefined;
     triggerChange(value);
   };
 

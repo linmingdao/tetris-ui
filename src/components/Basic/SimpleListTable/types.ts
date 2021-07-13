@@ -1,9 +1,10 @@
 import { CSSProperties } from 'react';
+import { ExpandableConfig } from 'antd/lib/table/interface';
 
-export interface ExpandableConfig {
-  rowExpandable: (record: any) => boolean;
-  expandedRowRender?: (record: any) => JSX.Element;
-}
+// export interface ExpandableConfig {
+//   rowExpandable: (record: any) => boolean;
+//   expandedRowRender?: (record: any) => JSX.Element;
+// }
 
 export interface SimpleListTableProps {
   rowkey: string;
@@ -15,7 +16,7 @@ export interface SimpleListTableProps {
   pageSize?: number;
   currentPage?: number;
   style?: CSSProperties;
-  expandable?: ExpandableConfig;
+  expandable?: ExpandableConfig<any>;
   paginationOption?: PaginationOption;
   onChange?: (pagination: any, filters: any, sorter: any, extra: any) => void;
   onPageChange?: (current: number) => void;

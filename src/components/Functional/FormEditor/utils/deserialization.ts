@@ -34,7 +34,7 @@ export function merge(cascadeValues: any, name: string, value: any, fieldNames: 
       cascadeValues[key] = value;
       return;
     }
-    if (typeof cascadeValues[key] === 'object' && fieldNames.includes(key)) {
+    if (cascadeValues && cascadeValues[key] && typeof cascadeValues[key] === 'object' && fieldNames.includes(key)) {
       merge(cascadeValues[key], name, value, fieldNames);
     }
   }

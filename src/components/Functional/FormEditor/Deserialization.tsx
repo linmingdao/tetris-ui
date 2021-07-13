@@ -128,9 +128,11 @@ export const Deserialization: FC<DeserializationProps> = ({
       <Form.Item style={{ borderTop: '1px solid #eee' }}>
         <Space style={{ width: '100%', justifyContent: 'flex-end', padding: '10px 0' }}>
           {defaultToolbar.includes('ok') && (
-            <Button shape="round" icon={<Iconfont type="icon-commit" />} type="primary" onClick={() => handleOk()}>
-              {okText}
-            </Button>
+            <Popconfirm title="确认要保存么?" onConfirm={() => handleOk()} okText="确定" cancelText="取消">
+              <Button shape="round" icon={<Iconfont type="icon-commit" />} type="primary">
+                {okText}
+              </Button>
+            </Popconfirm>
           )}
           {defaultToolbar.includes('reset') && (
             <Popconfirm title="确认要重置么?" onConfirm={handleReset} okText="确定" cancelText="取消">

@@ -3,6 +3,7 @@ export { default as Error } from './components/Basic/Error';
 export { default as Loading } from './components/Basic/Loading';
 export { default as RichText } from './components/Basic/RichText';
 export { default as AreaCascader } from './components/Basic/AreaCascader';
+export { default as EditableTags } from './components/Basic/EditableTags';
 export { default as SimpleListTable } from './components/Basic/SimpleListTable';
 
 // 布局组件
